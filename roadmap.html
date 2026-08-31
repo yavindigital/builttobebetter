@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Built to Be Better — Development Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"/>
+<style>
+:root{
+  --bg:#030712;--surface:#0B1525;--surface-2:#111E36;
+  --border:rgba(255,255,255,0.07);--border-hi:rgba(255,255,255,0.14);
+  --blue:#4A80FF;--orange:#FF5C30;--orange-glow:rgba(255,92,48,0.38);
+  --green:#00E599;--red:#FF4466;--cyan:#38BFFF;--purple:#9D6EFF;--yellow:#FFD166;
+  --white:#EEF2FF;--muted:rgba(238,242,255,0.52);--muted-2:rgba(238,242,255,0.24);
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --radius:8px;--radius-lg:16px;
+  --p1:var(--blue);--p2:var(--orange);--p3:var(--cyan);--p4:var(--green);--p5:var(--purple);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);color:var(--white);background:var(--bg);line-height:1.6;font-size:15px;}
+a{text-decoration:none;color:inherit;}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;background:rgba(3,7,18,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1240px;margin:auto;height:56px;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-mark{width:30px;height:30px;background:var(--orange);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 16px rgba(255,92,48,0.4);}
+.nav-mark svg{width:16px;height:16px;}
+.nav-wordmark{font-family:var(--font-display);font-size:13px;font-weight:800;}
+.nav-wordmark em{font-style:normal;color:var(--orange);}
+.nav-links{display:flex;align-items:center;gap:1px;flex-wrap:wrap;}
+.nav-links a{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted-2);padding:5px 10px;border-radius:5px;transition:color .15s,background .15s;white-space:nowrap;}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.06);}
+.nav-badge{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:100px;background:rgba(74,128,255,0.1);border:1px solid rgba(74,128,255,0.28);color:var(--blue);}
+@media(max-width:960px){.nav-links{display:none;}}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;padding:96px 32px 72px;background:var(--bg);}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;}
+.orb1{width:700px;height:700px;background:radial-gradient(circle,rgba(59,90,255,0.5) 0%,transparent 70%);top:-280px;left:-120px;animation:d1 22s ease-in-out infinite;}
+.orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(255,72,0,0.4) 0%,transparent 70%);bottom:-180px;right:-80px;animation:d2 18s ease-in-out infinite;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:72px 72px;pointer-events:none;}
+@keyframes d1{0%,100%{transform:translate(0,0);}50%{transform:translate(55px,35px);}}
+@keyframes d2{0%,100%{transform:translate(0,0);}50%{transform:translate(-45px,-28px);}}
+.hero-inner{position:relative;max-width:1240px;margin:auto;}
+.eyebrow{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--blue);}
+.hero-title{font-family:var(--font-display);font-size:clamp(34px,5vw,68px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;}
+.hero-title span{color:var(--orange);}
+.hero-sub{font-size:17px;color:var(--muted);max-width:600px;line-height:1.8;margin-bottom:36px;}
+.hero-phase-strip{display:flex;gap:10px;flex-wrap:wrap;}
+.hps{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:100px;border:1px solid var(--border-hi);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
+.hps.p1{border-color:rgba(74,128,255,0.35);color:var(--blue);background:rgba(74,128,255,0.08);}
+.hps.p2{border-color:rgba(255,92,48,0.35);color:var(--orange);background:rgba(255,92,48,0.08);}
+.hps.p3{border-color:rgba(56,191,255,0.35);color:var(--cyan);background:rgba(56,191,255,0.08);}
+.hps.p4{border-color:rgba(0,229,153,0.35);color:var(--green);background:rgba(0,229,153,0.08);}
+.hps.p5{border-color:rgba(157,110,255,0.35);color:var(--purple);background:rgba(157,110,255,0.08);}
+.hps-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.hps.p1 .hps-dot{background:var(--blue);}
+.hps.p2 .hps-dot{background:var(--orange);}
+.hps.p3 .hps-dot{background:var(--cyan);}
+.hps.p4 .hps-dot{background:var(--green);}
+.hps.p5 .hps-dot{background:var(--purple);}
+
+/* ── LAYOUT ── */
+hr.div{height:1px;background:var(--border);border:none;margin:0;}
+.wrap{max-width:1240px;margin:auto;padding:0 32px;}
+section{padding:72px 0;}
+
+/* ── SECTION LABELS ── */
+.slabel{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.slabel::before{content:'';width:20px;height:1px;}
+.slabel.blue{color:var(--blue);} .slabel.blue::before{background:var(--blue);}
+.slabel.orange{color:var(--orange);} .slabel.orange::before{background:var(--orange);}
+.slabel.green{color:var(--green);} .slabel.green::before{background:var(--green);}
+.slabel.cyan{color:var(--cyan);} .slabel.cyan::before{background:var(--cyan);}
+.slabel.purple{color:var(--purple);} .slabel.purple::before{background:var(--purple);}
+.slabel.yellow{color:var(--yellow);} .slabel.yellow::before{background:var(--yellow);}
+.slabel.muted{color:var(--muted-2);} .slabel.muted::before{background:var(--muted-2);}
+.stitle{font-family:var(--font-display);font-size:clamp(22px,2.8vw,38px);font-weight:800;line-height:1.15;letter-spacing:-1px;margin-bottom:14px;}
+.ssub{font-size:15px;color:var(--muted);max-width:600px;line-height:1.8;}
+
+/* ── PHASE HEADER ── */
+.phase-block{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);margin-bottom:28px;}
+.phase-header{padding:28px 32px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;border-bottom:1px solid var(--border);position:relative;}
+.phase-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.ph1 .phase-header::before{background:var(--blue);}
+.ph2 .phase-header::before{background:var(--orange);}
+.ph3 .phase-header::before{background:var(--cyan);}
+.ph4 .phase-header::before{background:var(--green);}
+.ph5 .phase-header::before{background:var(--purple);}
+.phase-header-left{flex:1;}
+.phase-tag{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px;}
+.ph1 .phase-tag{color:var(--blue);}
+.ph2 .phase-tag{color:var(--orange);}
+.ph3 .phase-tag{color:var(--cyan);}
+.ph4 .phase-tag{color:var(--green);}
+.ph5 .phase-tag{color:var(--purple);}
+.phase-name{font-family:var(--font-display);font-size:clamp(20px,2.2vw,28px);font-weight:800;letter-spacing:-.5px;margin-bottom:8px;}
+.phase-goal{font-size:14px;color:var(--muted);max-width:560px;line-height:1.7;}
+.phase-gate{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid var(--border-hi);color:var(--muted-2);white-space:nowrap;align-self:flex-start;margin-top:6px;}
+.phase-body{padding:28px 32px;background:var(--surface);}
+
+/* ── FEATURE GROUPS ── */
+.groups{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+.groups-2{grid-template-columns:repeat(2,1fr);}
+.groups-4{grid-template-columns:repeat(4,1fr);}
+@media(max-width:900px){.groups,.groups-4{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.groups,.groups-2,.groups-4{grid-template-columns:1fr;}}
+.group{padding:20px 18px;border-radius:var(--radius-lg);border:1px solid var(--border);background:rgba(3,7,18,0.5);}
+.group-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted-2);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.group ul{list-style:none;}
+.group ul li{font-size:12px;color:var(--muted);line-height:1.5;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:flex-start;gap:8px;}
+.group ul li:last-child{border-bottom:none;}
+.group ul li::before{content:'·';color:var(--muted-2);flex-shrink:0;margin-top:1px;}
+.group ul li strong{color:var(--white);font-weight:600;}
+.group ul li em{font-style:normal;color:var(--muted-2);font-size:11px;display:block;}
+
+/* ── INTEGRATION CALLOUTS ── */
+.integrations{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px;}
+.integrations-3{grid-template-columns:repeat(3,1fr);}
+@media(max-width:760px){.integrations,.integrations-3{grid-template-columns:1fr;}}
+.int-card{padding:20px;border-radius:var(--radius-lg);border:1px solid;display:flex;flex-direction:column;gap:10px;}
+.int-card.blue{border-color:rgba(74,128,255,0.3);background:rgba(74,128,255,0.06);}
+.int-card.orange{border-color:rgba(255,92,48,0.3);background:rgba(255,92,48,0.06);}
+.int-card.green{border-color:rgba(0,229,153,0.3);background:rgba(0,229,153,0.06);}
+.int-card.cyan{border-color:rgba(56,191,255,0.3);background:rgba(56,191,255,0.06);}
+.int-card.purple{border-color:rgba(157,110,255,0.3);background:rgba(157,110,255,0.06);}
+.int-card.yellow{border-color:rgba(255,209,102,0.3);background:rgba(255,209,102,0.06);}
+.int-top{display:flex;align-items:center;gap:10px;}
+.int-icon{font-size:18px;line-height:1;}
+.int-header{flex:1;}
+.int-label{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.int-card.blue .int-label{color:var(--blue);}
+.int-card.orange .int-label{color:var(--orange);}
+.int-card.green .int-label{color:var(--green);}
+.int-card.cyan .int-label{color:var(--cyan);}
+.int-card.purple .int-label{color:var(--purple);}
+.int-card.yellow .int-label{color:var(--yellow);}
+.int-service{font-size:13px;font-weight:700;color:var(--white);}
+.int-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.int-items{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.int-items li{font-size:11px;color:var(--muted-2);padding-left:14px;position:relative;line-height:1.5;}
+.int-items li::before{content:'→';position:absolute;left:0;color:var(--muted-2);}
+.int-items li strong{color:var(--muted);font-weight:600;}
+
+/* ── WATCH-OUT CALLOUTS ── */
+.watchouts{margin-top:20px;display:flex;flex-direction:column;gap:10px;}
+.watchout{padding:16px 18px;border-radius:var(--radius);border:1px solid rgba(255,209,102,0.25);background:rgba(255,209,102,0.04);display:flex;align-items:flex-start;gap:12px;}
+.watchout-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+.watchout-text{font-size:12px;color:var(--muted);line-height:1.6;}
+.watchout-text strong{color:var(--yellow);font-weight:700;}
+.warn-red{border-color:rgba(255,68,102,0.25);background:rgba(255,68,102,0.04);}
+.warn-red .watchout-text strong{color:var(--red);}
+
+/* ── DECISION BLOCK ── */
+.decision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;}
+.decision-grid-2{grid-template-columns:repeat(2,1fr);}
+@media(max-width:860px){.decision-grid,.decision-grid-2{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.decision-grid,.decision-grid-2{grid-template-columns:1fr;}}
+.decision{padding:20px 18px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--surface);}
+.decision-cat{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted-2);margin-bottom:8px;}
+.decision-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:6px;}
+.decision-rec{font-size:11px;color:var(--muted-2);line-height:1.5;margin-bottom:10px;}
+.decision-options{display:flex;flex-wrap:wrap;gap:6px;}
+.opt{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.5px;padding:4px 10px;border-radius:100px;border:1px solid var(--border-hi);color:var(--muted-2);}
+.opt.rec{border-color:rgba(0,229,153,0.35);color:var(--green);background:rgba(0,229,153,0.07);}
+
+/* ── INFRA LAYER ── */
+.infra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;}
+@media(max-width:860px){.infra-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.infra-grid{grid-template-columns:1fr;}}
+.infra-card{padding:22px 18px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--surface);}
+.infra-icon{font-size:20px;margin-bottom:10px;}
+.infra-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:6px;}
+.infra-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.infra-phase{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:100px;border:1px solid var(--border-hi);color:var(--muted-2);display:inline-block;margin-top:8px;}
+
+/* ── STRIPE CALLOUT ── */
+.stripe-block{border-radius:var(--radius-lg);border:1px solid rgba(99,91,255,0.3);background:rgba(99,91,255,0.05);padding:28px;margin-top:20px;}
+.stripe-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.stripe-logo{font-size:22px;}
+.stripe-title{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--white);}
+.stripe-sub{font-size:12px;color:var(--muted-2);}
+.stripe-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.stripe-cols{grid-template-columns:1fr;}}
+.stripe-col-title{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted-2);margin-bottom:8px;}
+.stripe-items{list-style:none;}
+.stripe-items li{font-size:12px;color:var(--muted);line-height:1.5;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:flex-start;gap:8px;}
+.stripe-items li:last-child{border-bottom:none;}
+.stripe-items li::before{content:'→';color:rgba(99,91,255,0.7);flex-shrink:0;}
+
+/* ── EMAIL CALLOUT ── */
+.email-templates{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;}
+@media(max-width:700px){.email-templates{grid-template-columns:1fr 1fr;}}
+.email-tpl{padding:14px;border-radius:var(--radius);border:1px solid var(--border);background:rgba(3,7,18,0.5);}
+.email-tpl-name{font-size:12px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.email-tpl-desc{font-size:11px;color:var(--muted-2);line-height:1.5;}
+.email-phase-tag{font-family:var(--font-mono);font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:100px;border:1px solid var(--border-hi);color:var(--muted-2);display:inline-block;margin-bottom:6px;}
+
+/* ── STORAGE BLOCK ── */
+.storage-path{font-family:var(--font-mono);font-size:12px;color:var(--green);background:rgba(0,229,153,0.06);border:1px solid rgba(0,229,153,0.2);border-radius:var(--radius);padding:14px 16px;margin-top:8px;line-height:2;}
+
+/* ── CLOSING ── */
+.closing{border-radius:var(--radius-lg);border:1px solid var(--border-hi);background:var(--surface);padding:52px 40px;text-align:center;position:relative;overflow:hidden;}
+.closing::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(74,128,255,0.06) 0%,transparent 70%);pointer-events:none;}
+.closing-title{font-family:var(--font-display);font-size:clamp(18px,2.5vw,28px);font-weight:800;letter-spacing:-.5px;margin-bottom:16px;}
+.closing-rule{font-size:14px;color:var(--muted);max-width:640px;margin:0 auto 24px;line-height:1.8;}
+.closing-check{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:100px;border:1px solid rgba(0,229,153,0.3);background:rgba(0,229,153,0.07);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:28px 32px;text-align:center;}
+footer p{font-size:12px;color:var(--muted-2);}
+footer a{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M3 13L8 3L13 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 9H10.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <span class="nav-wordmark">Built to Be <em>Better</em></span>
+    </div>
+    <div class="nav-links">
+      <a href="#decisions">Decisions</a>
+      <a href="#infra">Infrastructure</a>
+      <a href="#phase1">Phase 1</a>
+      <a href="#phase2">Phase 2</a>
+      <a href="#phase3">Phase 3</a>
+      <a href="#phase4">Phase 4</a>
+      <a href="#phase5">Phase 5</a>
+    </div>
+    <span class="nav-badge">Dev Roadmap · Internal</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Development Roadmap</div>
+    <h1 class="hero-title">What to build.<br><span>In what order.</span></h1>
+    <p class="hero-sub">
+      Five phases. Decisions to make before writing a line of code. Integrations to think through before
+      you need them. Every phase earns the right to build the next.
+    </p>
+    <div class="hero-phase-strip">
+      <a href="#phase1" class="hps p1"><span class="hps-dot"></span>Phase 1 — Sales Engine</a>
+      <a href="#phase2" class="hps p2"><span class="hps-dot"></span>Phase 2 — Fulfillment</a>
+      <a href="#phase3" class="hps p3"><span class="hps-dot"></span>Phase 3 — Automation</a>
+      <a href="#phase4" class="hps p4"><span class="hps-dot"></span>Phase 4 — Monitoring</a>
+      <a href="#phase5" class="hps p5"><span class="hps-dot"></span>Phase 5 — Agency</a>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- PRE-BUILD DECISIONS -->
+<section id="decisions">
+<div class="wrap">
+  <div class="slabel yellow">Before You Write Code</div>
+  <h2 class="stitle">Decisions to make early.</h2>
+  <p class="ssub">These choices affect every phase. Getting them wrong costs more to fix later than getting them right now. Pick deliberately, not by default.</p>
+
+  <div class="decision-grid" style="margin-top:32px;">
+
+    <div class="decision">
+      <div class="decision-cat">Database</div>
+      <div class="decision-title">Relational DB — PostgreSQL</div>
+      <div class="decision-rec">You have 20+ related entities, complex audit queries, and need JSON columns for flexible image metadata. PostgreSQL handles all of it. Don't use SQLite in production.</div>
+      <div class="decision-options">
+        <span class="opt rec">PostgreSQL ✓</span>
+        <span class="opt">MySQL</span>
+        <span class="opt">PlanetScale</span>
+      </div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-cat">ORM / Query Layer</div>
+      <div class="decision-title">Database Access</div>
+      <div class="decision-rec">Prisma is the safest choice — excellent migration tooling, type-safe client, wide community. Drizzle is lighter and closer to raw SQL if you want more control. Pick one and commit to its migration workflow from day one.</div>
+      <div class="decision-options">
+        <span class="opt rec">Prisma ✓</span>
+        <span class="opt rec">Drizzle ✓</span>
+        <span class="opt">TypeORM</span>
+        <span class="opt">Knex</span>
+      </div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-cat">Background Queue</div>
+      <div class="decision-title">Job Processing</div>
+      <div class="decision-rec">Crawling and image analysis must never run inside a web request. BullMQ + Redis is the most capable option. pg-boss (Postgres-native) works if you want to avoid running Redis. Decide before you write the first crawl function.</div>
+      <div class="decision-options">
+        <span class="opt rec">BullMQ + Redis ✓</span>
+        <span class="opt rec">pg-boss ✓</span>
+        <span class="opt">Inngest</span>
+        <span class="opt">Trigger.dev</span>
+      </div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-cat">Crawling Approach</div>
+      <div class="decision-title">HTTP vs. Headless Browser</div>
+      <div class="decision-rec">HTTP + Cheerio is fast and cheap but misses JavaScript-rendered images. Puppeteer/Playwright sees everything but is slower and costs more at scale. Start with HTTP. Document the limitation. Add headless for a premium audit tier later.</div>
+      <div class="decision-options">
+        <span class="opt rec">Cheerio + Axios (MVP) ✓</span>
+        <span class="opt">Puppeteer</span>
+        <span class="opt">Playwright</span>
+        <span class="opt">Crawlee</span>
+      </div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-cat">Image Processing</div>
+      <div class="decision-title">Analysis &amp; Conversion</div>
+      <div class="decision-rec">Sharp handles WebP conversion, resizing, quality optimization, and can probe image dimensions without full decoding. Use it for both analysis and optimization. It's fast, it's a native binary, and it's the Node.js standard.</div>
+      <div class="decision-options">
+        <span class="opt rec">Sharp ✓</span>
+        <span class="opt">Jimp</span>
+        <span class="opt">ImageMagick (CLI)</span>
+      </div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-cat">Authentication</div>
+      <div class="decision-title">User Auth &amp; Sessions</div>
+      <div class="decision-rec">For MVP, a simple email/password + JWT or session setup is fine. You control it, it's fast to build, and you don't pay per user. Clerk is excellent DX if you want to move faster on auth and would rather pay for it. Avoid rolling custom password hashing — use bcrypt.</div>
+      <div class="decision-options">
+        <span class="opt rec">Custom JWT/Session ✓</span>
+        <span class="opt rec">Clerk ✓</span>
+        <span class="opt">NextAuth / Auth.js</span>
+        <span class="opt">Lucia</span>
+      </div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-cat">File Storage</div>
+      <div class="decision-title">Object Storage for Assets</div>
+      <div class="decision-rec">Cloudflare R2 is S3-compatible with zero egress fees — excellent for serving optimized images. AWS S3 has the broadest ecosystem. Backblaze B2 is cheapest at scale. All three work. Pick R2 for the MVP unless you're already in AWS.</div>
+      <div class="decision-options">
+        <span class="opt rec">Cloudflare R2 ✓</span>
+        <span class="opt">AWS S3</span>
+        <span class="opt">Backblaze B2</span>
+      </div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-cat">Report Delivery</div>
+      <div class="decision-title">PDF Generation</div>
+      <div class="decision-rec">The simplest approach: use Puppeteer to render your HTML audit report as a PDF. You already built the report in HTML — this gives you a perfect match. React PDF works too but requires rebuilding the layout in a PDF-specific API.</div>
+      <div class="decision-options">
+        <span class="opt rec">Puppeteer (HTML→PDF) ✓</span>
+        <span class="opt">React PDF</span>
+        <span class="opt">pdfkit</span>
+      </div>
+    </div>
+
+    <div class="decision">
+      <div class="decision-cat">Hosting</div>
+      <div class="decision-title">Deployment Platform</div>
+      <div class="decision-rec">Railway and Render both support web + worker processes (critical for your queue workers) with easy PostgreSQL and Redis add-ons. Fly.io gives more control. Don't build on a platform that can't run persistent background workers.</div>
+      <div class="decision-options">
+        <span class="opt rec">Railway ✓</span>
+        <span class="opt rec">Render ✓</span>
+        <span class="opt">Fly.io</span>
+        <span class="opt">AWS ECS</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- INFRASTRUCTURE LAYER -->
+<section id="infra">
+<div class="wrap">
+  <div class="slabel muted">Cross-Phase Infrastructure</div>
+  <h2 class="stitle">The layer underneath everything.</h2>
+  <p class="ssub">These services don't belong to one phase — they support all of them. Design the integration points before you need them.</p>
+
+  <div class="infra-grid">
+    <div class="infra-card">
+      <div class="infra-icon">📧</div>
+      <div class="infra-title">Transactional Email</div>
+      <div class="infra-desc">Audit delivery, project updates, monitoring alerts, payment receipts. Pick a provider with high deliverability and a solid template system. Set up a sending domain with DKIM/SPF from day one — retroactively fixing email reputation is painful.</div>
+      <div class="infra-phase">Phase 1 — Required</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-icon">⚡</div>
+      <div class="infra-title">Background Queue</div>
+      <div class="infra-desc">Every crawl, image analysis, report generation, and monitoring scan is a background job. Job states — QUEUED, RUNNING, COMPLETED, FAILED, RETRYING, CANCELLED — must be stored and visible in the admin dashboard. Not in server logs.</div>
+      <div class="infra-phase">Phase 1 — Required</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-icon">🗄️</div>
+      <div class="infra-title">File Storage</div>
+      <div class="infra-desc">Original image files, optimized files, PDF reports, and CSV exports all need durable object storage. Define the folder structure before Phase 2. Originals must never be in a publicly accessible bucket.</div>
+      <div class="infra-phase">Phase 2 — Required</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-icon">💳</div>
+      <div class="infra-title">Stripe</div>
+      <div class="infra-desc">Project payments in Phase 2. Recurring subscriptions in Phase 4. Set up the Stripe account, webhook endpoint, and test mode from Phase 2. Stripe webhooks must be idempotent — Stripe will sometimes send the same event more than once.</div>
+      <div class="infra-phase">Phase 2 — Payments · Phase 4 — Subscriptions</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-icon">🔐</div>
+      <div class="infra-title">Credential Vault</div>
+      <div class="infra-desc">WordPress logins, SFTP credentials, hosting API keys — none of this can live as plain text in the database. AES-256 encryption at rest. Role-scoped access. Never logged. Never in customer reports. Design the vault interface before Phase 3 automation needs it.</div>
+      <div class="infra-phase">Phase 2–3 — Required</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-icon">🔭</div>
+      <div class="infra-title">Error Tracking &amp; Observability</div>
+      <div class="infra-desc">Sentry covers Phase 1 needs on its free tier. Every failed crawl job needs a structured error: domain, job ID, error type, and what to do about it. Operators must understand why something failed — not just that it did.</div>
+      <div class="infra-phase">Phase 1 — Recommended</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- PHASE 1 -->
+<section id="phase1">
+<div class="wrap">
+  <div class="slabel blue">Phase 1</div>
+  <h2 class="stitle">Sales Engine — the MVP.</h2>
+  <p class="ssub" style="margin-bottom:32px;">Everything in Phase 1 exists to answer one question: <em style="font-style:italic;color:var(--white);">"Is there a project worth selling here?"</em> The MVP is done when a salesperson can walk out of the system with a report and a prospect.</p>
+
+  <div class="phase-block ph1">
+    <div class="phase-header" style="background:rgba(74,128,255,0.04);">
+      <div class="phase-header-left">
+        <div class="phase-tag">Phase 1 — Launch</div>
+        <div class="phase-name">Sales Engine</div>
+        <div class="phase-goal">Build enough to find a good prospect, prove the opportunity, generate a professional report, and begin tracking the sale. Human technicians handle fulfillment while the system learns.</div>
+      </div>
+      <div class="phase-gate">Prerequisite: None — build this first</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="groups">
+        <div class="group">
+          <div class="group-title">Domain Intake</div>
+          <ul>
+            <li><strong>Public submission form</strong> — URL, name, email, company, authorization acknowledgment</li>
+            <li><strong>Internal intake</strong> — admin adds domain directly, no external form needed</li>
+            <li><strong>URL normalization</strong> — strip trailing slashes, resolve www vs. non-www, enforce https<em>Test edge cases early: query strings, subdomains, redirects</em></li>
+            <li><strong>Duplicate detection</strong> — warn if domain already exists in system</li>
+            <li><strong>Domain → Prospect association</strong> — link to account or prospect record</li>
+            <li><strong>Authorization source recorded</strong> — who submitted, when, what they agreed to</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Crawling Engine</div>
+          <ul>
+            <li><strong>Page discovery</strong> — follow internal links, find public pages</li>
+            <li><strong>Sitemap detection</strong> — parse sitemap.xml if present</li>
+            <li><strong>robots.txt compliance</strong> — respect Disallow directives</li>
+            <li><strong>Configurable limits (stored in DB)</strong> — max pages discovered, max pages analyzed, crawl depth, concurrency, timeout, retries<em>Never hardcode these in application logic</em></li>
+            <li><strong>Canonical deduplication</strong> — normalize URLs before storing</li>
+            <li><strong>Pages discovered vs. analyzed stored separately</strong> — this distinction cannot be conflated</li>
+            <li><strong>Crawl job states</strong> — QUEUED → RUNNING → COMPLETED / FAILED / RETRYING</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Image Analysis Engine</div>
+          <ul>
+            <li><strong>Per-image collection</strong> — URL, source page, domain, MIME type, extension</li>
+            <li><strong>File size measurement</strong> — HEAD request + Content-Length header</li>
+            <li><strong>Dimensions</strong> — width and height via Sharp probe (no full decode required)</li>
+            <li><strong>First-party vs. third-party classification</strong> — compare image hostname to crawled domain<em>Critical — never count third-party as controllable opportunity</em></li>
+            <li><strong>Existing WebP / AVIF detection</strong> — record current format, not just extension</li>
+            <li><strong>Conversion eligibility flag</strong> — is this image a candidate?</li>
+            <li><strong>Estimated savings calculation</strong> — bytes, percentage, projected full-site</li>
+            <li><strong>Images discovered vs. images analyzed stored separately</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="groups">
+        <div class="group">
+          <div class="group-title">Opportunity Scoring</div>
+          <ul>
+            <li><strong>Score 0–100</strong> — composite of weighted inputs</li>
+            <li><strong>Scoring inputs</strong> — image volume, legacy format %, payload, estimated reduction, oversized ratio, first-party control %, site scale, repeat image activity</li>
+            <li><strong>Weights stored in DB</strong> — never hardcoded, configurable from admin</li>
+            <li><strong>Tier classification</strong> — Healthy / Moderate / High / Very High</li>
+            <li><strong>Tier thresholds configurable</strong> — stored in DB, not baked into code</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Customer-Facing Audit Report</div>
+          <ul>
+            <li><strong>Executive summary</strong> — opportunity score + one-line verdict</li>
+            <li><strong>Scan scope</strong> — pages discovered vs. analyzed (clearly labeled)</li>
+            <li><strong>Image inventory</strong> — format breakdown, first vs. third-party</li>
+            <li><strong>Payload analysis</strong> — current weight, estimated optimized, potential savings</li>
+            <li><strong>Biggest opportunities</strong> — largest individual assets</li>
+            <li><strong>Recommended next step</strong> — sales CTA at the bottom of every report</li>
+            <li><strong>Methodology disclaimer</strong> — what is measured vs. estimated<em>Every estimate must be labeled</em></li>
+            <li><strong>Shareable URL</strong> — not email-only, linkable from any device</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Admin Dashboard &amp; Sales Pipeline</div>
+          <ul>
+            <li><strong>Domain list</strong> — audit status, score, sales state, assigned salesperson</li>
+            <li><strong>Crawl job monitor</strong> — queue depth, running, failed — in the UI, not server logs</li>
+            <li><strong>Failure surface</strong> — every failed job shows domain, error reason, retry option</li>
+            <li><strong>Sales state machine</strong> — New Domain → Audit Complete → Qualified → Report Sent → Review Scheduled → Proposal Sent → Won / Lost</li>
+            <li><strong>Prospect assignment</strong> — assign to salesperson</li>
+            <li><strong>Audit history per domain</strong> — never overwrite, always append</li>
+            <li><strong>Internal campaigns</strong> — group prospecting domains (e.g., "Texas Auto Dealers")</li>
+            <li><strong>CSV export</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PHASE 1 INTEGRATIONS -->
+      <div style="margin-top:8px;">
+        <div class="slabel blue" style="margin-bottom:14px;">Phase 1 Integrations</div>
+        <div class="integrations">
+          <div class="int-card blue">
+            <div class="int-top">
+              <div class="int-icon">📧</div>
+              <div class="int-header">
+                <div class="int-label">Transactional Email</div>
+                <div class="int-service">Resend · Postmark · SendGrid · AWS SES</div>
+              </div>
+            </div>
+            <div class="int-desc">Email is required in Phase 1 for audit report delivery. Set up a sending domain with DKIM and SPF before you send the first report. Use a subdomain like <code style="font-family:var(--font-mono);font-size:10px;color:var(--green);">mail.builttobebetter.com</code>.</div>
+            <ul class="int-items">
+              <li><strong>Audit submitted confirmation</strong> — acknowledge receipt, set expectations on timing</li>
+              <li><strong>Audit complete + report link</strong> — the primary delivery email</li>
+              <li><strong>Internal alert</strong> — notify sales when a high/very-high score audit completes</li>
+              <li><strong>Recommended:</strong> Resend (modern API, great DX, generous free tier) or Postmark (reputation for deliverability)</li>
+            </ul>
+          </div>
+          <div class="int-card cyan">
+            <div class="int-top">
+              <div class="int-icon">⚡</div>
+              <div class="int-header">
+                <div class="int-label">Background Queue</div>
+                <div class="int-service">BullMQ + Redis · pg-boss</div>
+              </div>
+            </div>
+            <div class="int-desc">Required before the first crawl runs. Every crawl, image analysis, savings calculation, and report generation is a job with a status. If Redis feels like extra infrastructure, pg-boss runs entirely on your Postgres database.</div>
+            <ul class="int-items">
+              <li><strong>DOMAIN_DISCOVERY</strong> — kick off crawl, find pages</li>
+              <li><strong>PAGE_CRAWL</strong> — fetch and analyze a single page</li>
+              <li><strong>IMAGE_FETCH</strong> — retrieve image metadata</li>
+              <li><strong>IMAGE_ANALYSIS</strong> — calculate eligibility, size estimates</li>
+              <li><strong>SAVINGS_CALCULATION</strong> — compute opportunity score</li>
+              <li><strong>REPORT_GENERATION</strong> — build and store the report</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 1 WATCH OUTS -->
+      <div class="watchouts">
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>JS-rendered images:</strong> A plain HTTP fetch won't see images injected by JavaScript. This is a real limitation for React, Vue, and many modern inventory systems. Accept it and document it in the audit methodology for MVP. Add a headless-browser option later as a premium scan tier.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>Rate limiting:</strong> Crawl politely. Add configurable delays between requests. An automotive site can have 50,000+ pages — if you hammer it without limits, you'll get blocked, possibly flagged as an attack, and you'll damage the relationship with a prospect before they even know you exist.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>URL normalization edge cases:</strong> www vs. non-www, http vs. https, trailing slashes, query parameters, fragment identifiers, and canonical redirects all create duplicate page problems. Test with at least ten real domains before you consider this reliable.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>Large-site crawl limits are not optional:</strong> Configure them before the first production crawl. One large ecommerce site with no limits will consume your entire worker capacity and possibly the database. Make limits a first-class admin setting from day one.</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- PHASE 2 -->
+<section id="phase2">
+<div class="wrap">
+  <div class="slabel orange">Phase 2</div>
+  <h2 class="stitle">Fulfillment System.</h2>
+  <p class="ssub" style="margin-bottom:32px;">Build Phase 2 after Phase 1 audits are generating paying projects. The goal is to support the work operationally — not automate it. Human technicians still perform platform-specific replacements.</p>
+
+  <div class="phase-block ph2">
+    <div class="phase-header" style="background:rgba(255,92,48,0.04);">
+      <div class="phase-header-left">
+        <div class="phase-tag">Phase 2 — Post-MVP</div>
+        <div class="phase-name">Fulfillment System</div>
+        <div class="phase-goal">Support the optimization project from approval through delivery. Every original asset preserved. Every replacement traceable. A before/after proof report generated automatically at the end of every project.</div>
+      </div>
+      <div class="phase-gate">Prerequisite: Phase 1 generating paid projects</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="groups">
+        <div class="group">
+          <div class="group-title">Optimization Project Management</div>
+          <ul>
+            <li><strong>Create project from approved audit</strong> — link to audit, prospect, proposal</li>
+            <li><strong>Project states</strong> — Created → Access Verified → Pre-Scan → Backup → Assets Collected → Optimized → Quality Review → Implementation → Site QA → Post-Scan → Results → Report → Closed</li>
+            <li><strong>Three fulfillment modes</strong> — Direct (we replace), Assisted (we hand off files), Third-party limited (documented as out of scope)</li>
+            <li><strong>Track implementer and approver</strong> — who did what, when</li>
+            <li><strong>Project-level access control</strong> — technicians see only assigned projects</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Pre-Optimization Baseline</div>
+          <ul>
+            <li><strong>Run a fresh scan before any changes</strong> — this is what "before" means</li>
+            <li><strong>Baseline metrics stored</strong> — total payload, asset count, average size, largest image, legacy format count</li>
+            <li><strong>Link baseline to project</strong> — not to the original sales audit, which may be weeks old</li>
+            <li><strong>Baseline is immutable</strong> — never update it once stored; this is your reference point</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Asset Collection &amp; Management</div>
+          <ul>
+            <li><strong>Download first-party images</strong> — store originals before touching anything</li>
+            <li><strong>File storage structure</strong> — organized by project, clearly separated originals vs. optimized</li>
+            <li><strong>Generate optimized versions</strong> — WebP, quality-optimized, resized where oversized</li>
+            <li><strong>Implementation map</strong> — which original URL maps to which replacement file</li>
+            <li><strong>Per-asset approval</strong> — technician reviews quality before deployment</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="groups-2 groups">
+        <div class="group">
+          <div class="group-title">Replacement Tracking &amp; Rollback</div>
+          <ul>
+            <li><strong>Every replacement logged</strong> — original URL, replacement URL, timestamp, project ID, performed by, approved by</li>
+            <li><strong>Rollback record</strong> — the path back to the original for every single changed asset</li>
+            <li><strong>Full project rollback</strong> — restore all originals if something goes badly wrong</li>
+            <li><strong>QA checklist per project</strong> — confirm visual integrity before marking complete</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Post-Optimization Proof</div>
+          <ul>
+            <li><strong>Post-scan after implementation</strong> — re-crawl and measure the live site</li>
+            <li><strong>Comparison engine</strong> — before baseline vs. post-scan results</li>
+            <li><strong>Calculated improvements</strong> — bytes removed, % reduction, assets converted, payload delta</li>
+            <li><strong>Before/after report</strong> — customer-deliverable, not just internal data</li>
+            <li><strong>Remaining issues flagged</strong> — what we didn't touch and why (third-party, out of scope)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PHASE 2 INTEGRATIONS — Stripe + File Storage + Credential Vault -->
+      <div style="margin-top:8px;">
+        <div class="slabel orange" style="margin-bottom:14px;">Phase 2 Integrations</div>
+        <div class="integrations integrations-3">
+          <div class="int-card orange">
+            <div class="int-top">
+              <div class="int-icon">💳</div>
+              <div class="int-header">
+                <div class="int-label">Stripe — One-Time Payments</div>
+                <div class="int-service">Project Invoicing</div>
+              </div>
+            </div>
+            <div class="int-desc">Phase 2 is when you first need to collect money in-system. Stripe Checkout or Payment Links are the fastest path — you don't need a full in-app billing UI to start. Set up the webhook endpoint now; you'll need it for subscriptions in Phase 4.</div>
+            <ul class="int-items">
+              <li>Create a Stripe customer when an account is created — store <code style="font-family:var(--font-mono);font-size:10px;">stripe_customer_id</code> on the account</li>
+              <li>Project invoice → Stripe Checkout session or Payment Link</li>
+              <li>Webhook: <code style="font-family:var(--font-mono);font-size:10px;">payment_intent.succeeded</code> → mark project as paid, release to production</li>
+              <li>Store <code style="font-family:var(--font-mono);font-size:10px;">stripe_payment_intent_id</code> on every project</li>
+            </ul>
+          </div>
+          <div class="int-card green">
+            <div class="int-top">
+              <div class="int-icon">🗄️</div>
+              <div class="int-header">
+                <div class="int-label">File Storage</div>
+                <div class="int-service">Cloudflare R2 · AWS S3 · Backblaze B2</div>
+              </div>
+            </div>
+            <div class="int-desc">Design the folder structure before the first file is stored. Changing it after projects are live is painful. Originals must never be in a public bucket. Optimized files can be served from a CDN-backed public bucket.</div>
+            <div class="storage-path">
+              /accounts/{id}/projects/{id}/originals/<br>
+              /accounts/{id}/projects/{id}/optimized/<br>
+              /accounts/{id}/reports/{audit_id}.pdf
+            </div>
+          </div>
+          <div class="int-card purple">
+            <div class="int-top">
+              <div class="int-icon">🔐</div>
+              <div class="int-header">
+                <div class="int-label">Credential Vault</div>
+                <div class="int-service">Encrypted at rest · Role-scoped</div>
+              </div>
+            </div>
+            <div class="int-desc">Needed when technicians need WordPress logins, SFTP, or hosting API keys to perform replacements. Build the vault interface before you need it in Phase 3 automation — the data model must support it from here.</div>
+            <ul class="int-items">
+              <li>AES-256 encryption at rest — never plain text in the DB</li>
+              <li>Scoped to project or domain — not globally accessible</li>
+              <li>Role-restricted access — only assigned technicians can decrypt</li>
+              <li>Never logged, never in reports, never in error messages</li>
+              <li>Expiration and rotation support from the start</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="watchouts">
+        <div class="watchout watchout warn-red"><span class="watchout-icon">🔴</span><span class="watchout-text"><strong>Always store the original before any replacement.</strong> This is not optional. No production asset is modified without the original safely preserved in file storage first. The recovery path is a requirement, not a nice-to-have.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>The first few projects don't need in-app Stripe billing.</strong> A Stripe Payment Link sent via email is fine. Get the project workflow working first, then build the in-app payment flow once you've run a few real projects through it.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>Image quality review is not optional.</strong> WebP compression artifacts are real. Build in a human review step where a technician approves optimized files before they go into the implementation map. Don't ship to a customer's live site without this gate.</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- PHASE 3 -->
+<section id="phase3">
+<div class="wrap">
+  <div class="slabel cyan">Phase 3</div>
+  <h2 class="stitle">Automation.</h2>
+  <p class="ssub" style="margin-bottom:32px;">Only build automation after completing 10–25 manual projects. Those projects will reveal which platforms appear most and what the real failure modes are. Automating assumptions is expensive.</p>
+
+  <div class="phase-block ph3">
+    <div class="phase-header" style="background:rgba(56,191,255,0.04);">
+      <div class="phase-header-left">
+        <div class="phase-tag">Phase 3 — After Manual Projects</div>
+        <div class="phase-name">Platform Automation</div>
+        <div class="phase-goal">Automate the most common replacement workflows based on what the first 10–25 real projects actually needed. Don't build integrations based on assumptions. Build them after paying projects reveal the patterns.</div>
+      </div>
+      <div class="phase-gate">Prerequisite: 10–25 completed manual projects</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="groups">
+        <div class="group">
+          <div class="group-title">Platform Detection</div>
+          <ul>
+            <li><strong>Detect CMS from crawl data</strong> — response headers, meta generator tags, HTML signatures, cookie names</li>
+            <li><strong>Store platform classification</strong> — per domain, not per scan (update if it changes)</li>
+            <li><strong>Platforms to detect</strong> — WordPress, WooCommerce, Shopify, Webflow, Squarespace, Wix, Drupal, custom</li>
+            <li><strong>Confidence level</strong> — detected with certainty vs. likely vs. unknown</li>
+            <li><strong>CDN detection</strong> — Cloudflare, Fastly, AWS CloudFront, KeyCDN — affects replacement approach</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">WordPress / WooCommerce</div>
+          <ul>
+            <li><strong>WordPress REST API</strong> — read/update media library entries</li>
+            <li><strong>WP-CLI</strong> — direct CLI operations when server access is available</li>
+            <li><strong>Media library replacement</strong> — update attachment file + metadata</li>
+            <li><strong>Post content references</strong> — update img src in post bodies</li>
+            <li><strong>Cache purging</strong> — Cloudflare, WP Super Cache, W3 Total Cache, LiteSpeed, Nginx FastCGI<em>Each cache behaves differently — plan for all of them</em></li>
+            <li><strong>WooCommerce product images</strong> — API-based replacement with size regeneration</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Shopify &amp; Other Platforms</div>
+          <ul>
+            <li><strong>Shopify Admin API</strong> — product image upload, replacement, deletion</li>
+            <li><strong>Shopify theme assets</strong> — logo, banners, background images in theme files</li>
+            <li><strong>Rate limit handling</strong> — Shopify API bucket rate limits require retry-with-backoff logic</li>
+            <li><strong>Rollback via API</strong> — re-upload original if replacement causes issues</li>
+            <li><strong>Other platforms</strong> — prioritize based on which appeared in real projects, not assumptions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="watchouts">
+        <div class="watchout watchout warn-red"><span class="watchout-icon">🔴</span><span class="watchout-text"><strong>Do not build Phase 3 before Phase 1 is generating paying projects.</strong> The automation targets you think you need and the ones real projects actually need are different. Let 10–25 manual projects show you where automation pays.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>WordPress caching is a major source of implementation failures.</strong> WP Super Cache, W3 Total Cache, Cloudflare, LiteSpeed Cache, and Nginx FastCGI all behave differently. An automated replacement that doesn't purge the right cache will look like it failed even when it succeeded. Test with each cache plugin explicitly.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>Automated rollback is Phase 3 work.</strong> It depends on the replacement logging built in Phase 2. If the Phase 2 rollback records are clean and complete, automated rollback is straightforward. If they're not, it's dangerous.</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- PHASE 4 -->
+<section id="phase4">
+<div class="wrap">
+  <div class="slabel green">Phase 4</div>
+  <h2 class="stitle">Monitoring — recurring revenue.</h2>
+  <p class="ssub" style="margin-bottom:32px;">After optimization, the customer's site keeps adding images. Phase 4 turns a one-time project into a subscription. This is the recurring revenue model.</p>
+
+  <div class="phase-block ph4">
+    <div class="phase-header" style="background:rgba(0,229,153,0.04);">
+      <div class="phase-header-left">
+        <div class="phase-tag">Phase 4 — Recurring Revenue</div>
+        <div class="phase-name">Image Health Monitoring</div>
+        <div class="phase-goal">Periodically rescan completed projects. Detect new images, format regressions, and payload drift. Report monthly or quarterly. The monitoring subscription is the product that makes Built to Be Better a platform, not a one-time service.</div>
+      </div>
+      <div class="phase-gate">Prerequisite: Phase 2 completed projects</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="groups">
+        <div class="group">
+          <div class="group-title">Scheduled Scan Engine</div>
+          <ul>
+            <li><strong>Cron-triggered monitoring scans</strong> — monthly or quarterly per account preference</li>
+            <li><strong>Monitoring Scan entity</strong> — separate from Audit entity, linked to the project baseline</li>
+            <li><strong>Never overwrite previous scans</strong> — each scan is a new record; history is the product</li>
+            <li><strong>Scan scope mirrors original project scope</strong> — same pages, same limits</li>
+            <li><strong>Job queue integration</strong> — MONITOR_SCAN job type, same states as crawl jobs</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Comparison Engine</div>
+          <ul>
+            <li><strong>Current scan vs. last scan</strong> — detect additions, removals, changes</li>
+            <li><strong>New images detected</strong> — how many, in what formats</li>
+            <li><strong>New legacy-format images</strong> — JPG/PNG added since last scan</li>
+            <li><strong>Previously optimized images reverted</strong> — CMS reset or CDN issue</li>
+            <li><strong>New estimated payload waste</strong> — bytes, not just counts</li>
+            <li><strong>Image health score</strong> — recalculated each scan, stored with trend history</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Alerts &amp; Reports</div>
+          <ul>
+            <li><strong>Alert triggers</strong> — new legacy images above threshold, payload spike, regression detected</li>
+            <li><strong>Alert delivery</strong> — email + admin dashboard notification</li>
+            <li><strong>Monthly/quarterly digest report</strong> — "264 new images — 231 healthy, 33 need attention"</li>
+            <li><strong>Health trend visualization</strong> — image count, payload, score over time</li>
+            <li><strong>Thresholds configurable per domain</strong> — stored in DB, not hardcoded</li>
+            <li><strong>Recommendation engine</strong> — surface remediation options when issues found</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STRIPE SUBSCRIPTIONS CALLOUT -->
+      <div class="slabel green" style="margin-bottom:14px;margin-top:8px;">Phase 4 — Stripe Subscriptions</div>
+      <div class="stripe-block">
+        <div class="stripe-header">
+          <div class="stripe-logo">💳</div>
+          <div>
+            <div class="stripe-title">Stripe Billing — Recurring Subscriptions</div>
+            <div class="stripe-sub">Monthly monitoring · Quarterly monitoring · Managed optimization</div>
+          </div>
+        </div>
+        <div class="stripe-cols">
+          <div>
+            <div class="stripe-col-title">What to build</div>
+            <ul class="stripe-items">
+              <li>Stripe Products + Prices for each monitoring plan (monthly, quarterly)</li>
+              <li>Stripe Customer per account — create at account setup, store <code style="font-family:var(--font-mono);font-size:10px;">stripe_customer_id</code></li>
+              <li>Stripe Checkout session for subscription signup</li>
+              <li>Stripe Customer Portal for self-service plan management and cancellation</li>
+              <li>Store per subscription: <code style="font-family:var(--font-mono);font-size:10px;">stripe_subscription_id</code>, <code style="font-family:var(--font-mono);font-size:10px;">stripe_price_id</code>, <code style="font-family:var(--font-mono);font-size:10px;">current_period_end</code>, <code style="font-family:var(--font-mono);font-size:10px;">status</code></li>
+            </ul>
+          </div>
+          <div>
+            <div class="stripe-col-title">Webhooks to handle</div>
+            <ul class="stripe-items">
+              <li><code style="font-family:var(--font-mono);font-size:10px;">invoice.paid</code> — extend monitoring period, queue next scan</li>
+              <li><code style="font-family:var(--font-mono);font-size:10px;">invoice.payment_failed</code> — send dunning email, start grace period</li>
+              <li><code style="font-family:var(--font-mono);font-size:10px;">customer.subscription.deleted</code> — disable monitoring, retain historical data</li>
+              <li><code style="font-family:var(--font-mono);font-size:10px;">customer.subscription.updated</code> — handle plan changes and proration</li>
+              <li><strong>All webhook handlers must be idempotent</strong> — Stripe may send the same event more than once</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 EMAIL -->
+      <div style="margin-top:20px;">
+        <div class="int-card green" style="border-radius:var(--radius-lg);">
+          <div class="int-top">
+            <div class="int-icon">📧</div>
+            <div class="int-header">
+              <div class="int-label">Email — Phase 4 Templates</div>
+              <div class="int-service">Monitoring Digests · Alerts · Billing</div>
+            </div>
+          </div>
+          <div class="email-templates">
+            <div class="email-tpl"><div class="email-phase-tag">Monthly</div><div class="email-tpl-name">Monitoring Digest</div><div class="email-tpl-desc">Health summary, new issues detected, score trend, recommended next steps</div></div>
+            <div class="email-tpl"><div class="email-phase-tag">Alert</div><div class="email-tpl-name">New Issues Detected</div><div class="email-tpl-desc">Triggered when new legacy images or payload spike crosses the configured threshold</div></div>
+            <div class="email-tpl"><div class="email-phase-tag">Alert</div><div class="email-tpl-name">Regression Detected</div><div class="email-tpl-desc">Previously optimized image replaced with an unoptimized version — requires attention</div></div>
+            <div class="email-tpl"><div class="email-phase-tag">Billing</div><div class="email-tpl-name">Payment Failed</div><div class="email-tpl-desc">Dunning email with link to update payment method. Send at 1 day, 3 days, 7 days before cancellation.</div></div>
+            <div class="email-tpl"><div class="email-phase-tag">Billing</div><div class="email-tpl-name">Subscription Renewal</div><div class="email-tpl-desc">Upcoming renewal reminder with summary of monitoring value delivered this period</div></div>
+            <div class="email-tpl"><div class="email-phase-tag">Report</div><div class="email-tpl-name">Quarterly Report</div><div class="email-tpl-desc">Full health trend report with before-project baseline comparison and period highlights</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="watchouts">
+        <div class="watchout watchout warn-red"><span class="watchout-icon">🔴</span><span class="watchout-text"><strong>Webhook handlers must be idempotent.</strong> Stripe delivers webhooks at-least-once, not exactly-once. If <code style="font-family:var(--font-mono);font-size:11px;">invoice.paid</code> fires twice, your system should handle it gracefully without double-crediting the subscription.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>Failed payment recovery needs a defined policy.</strong> What happens to monitoring scans during a grace period? Are they paused? Run but not delivered? Define this before you launch subscriptions — it affects customer trust significantly.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>Monitoring scans and audits are related but distinct.</strong> A Monitoring Scan entity compares against a baseline. An Audit entity is a first-look analysis. Don't merge them in the data model — you'll regret it when generating trend data.</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- PHASE 5 -->
+<section id="phase5">
+<div class="wrap">
+  <div class="slabel purple">Phase 5</div>
+  <h2 class="stitle">Agency &amp; Enterprise.</h2>
+  <p class="ssub" style="margin-bottom:32px;">Phase 5 turns Built to Be Better into infrastructure for agencies. One agency with 100 clients is more valuable than 100 individual clients. Build this after the underlying model is proven.</p>
+
+  <div class="phase-block ph5">
+    <div class="phase-header" style="background:rgba(157,110,255,0.04);">
+      <div class="phase-header-left">
+        <div class="phase-tag">Phase 5 — Scale</div>
+        <div class="phase-name">Agency / Enterprise</div>
+        <div class="phase-goal">Multi-account organizations, white-label reports, bulk domain import, partner pricing, and API access. This phase makes Built to Be Better a platform that agencies distribute to their own clients.</div>
+      </div>
+      <div class="phase-gate">Prerequisite: Proven Phase 4 model, recurring revenue established</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="groups groups-4">
+        <div class="group">
+          <div class="group-title">Multi-Account / Organizations</div>
+          <ul>
+            <li><strong>Organization entity</strong> — the agency account</li>
+            <li><strong>Subaccounts</strong> — the agency's individual clients</li>
+            <li><strong>Role: Agency</strong> — sees all subaccount domains, audits, projects</li>
+            <li><strong>Role: Agency Technician</strong> — technical access limited to agency clients</li>
+            <li><strong>Role: Read-Only Stakeholder</strong> — report access only</li>
+            <li><strong>Agency dashboard</strong> — all clients in one view, scored and sorted</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">White-Label Reports</div>
+          <ul>
+            <li><strong>Agency branding on reports</strong> — logo, colors, name</li>
+            <li><strong>Built to Be Better branding optional</strong> — configurable per agency</li>
+            <li><strong>Custom sending domain</strong> — reports delivered from agency email</li>
+            <li><strong>Branded report URL</strong> — optional custom domain support</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">Bulk Domain Import &amp; Campaigns</div>
+          <ul>
+            <li><strong>CSV import</strong> — domains, vertical, assigned contact</li>
+            <li><strong>Campaign grouping</strong> — "Texas Auto Dealers Q3"</li>
+            <li><strong>Batch audit triggering</strong> — queue all imported domains at once</li>
+            <li><strong>Bulk opportunity ranking</strong> — sorted results across all imported domains</li>
+            <li><strong>Campaign-level reporting</strong> — aggregate scores, conversion stats</li>
+          </ul>
+        </div>
+        <div class="group">
+          <div class="group-title">API Access</div>
+          <ul>
+            <li><strong>REST API</strong> — submit domains, retrieve audit results, get scores</li>
+            <li><strong>API keys per organization</strong> — not user-level</li>
+            <li><strong>Rate limiting</strong> — per key, configurable per plan</li>
+            <li><strong>Webhook delivery</strong> — audit complete, score change, monitoring alert</li>
+            <li><strong>OpenAPI / Swagger docs</strong> — machine-readable spec</li>
+            <li><strong>Partner pricing tiers</strong> — configurable from admin, not hardcoded</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="watchouts">
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>Multi-tenancy data isolation is critical.</strong> Agency A must never be able to see Agency B's clients, audits, or reports. Build and test this at the data layer — not just the UI layer — before opening agency accounts.</span></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><span class="watchout-text"><strong>API rate limiting must be built before the API is public.</strong> An agency with automation can submit thousands of domains at once. Rate limits protect your infrastructure and prevent one account from consuming all crawl capacity.</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- EMAIL MASTER LIST -->
+<section>
+<div class="wrap">
+  <div class="slabel muted">Email Reference</div>
+  <h2 class="stitle">Every email the system needs to send.</h2>
+  <p class="ssub" style="margin-bottom:28px;">Set up your email provider and sending domain before Phase 1 goes live. DKIM, SPF, and DMARC need time to propagate and build reputation. Don't send audit reports from a domain with no email history.</p>
+
+  <div class="int-card blue" style="border-radius:var(--radius-lg);">
+    <div class="int-top">
+      <div class="int-icon">📧</div>
+      <div class="int-header">
+        <div class="int-label">Transactional Email Providers</div>
+        <div class="int-service">Resend · Postmark · SendGrid · AWS SES</div>
+      </div>
+    </div>
+    <div class="email-templates" style="margin-top:0;">
+      <div class="email-tpl"><div class="email-phase-tag">Phase 1</div><div class="email-tpl-name">Audit Submitted</div><div class="email-tpl-desc">Acknowledge receipt, set timing expectations, confirm what will be analyzed</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 1</div><div class="email-tpl-name">Audit Complete — Report Link</div><div class="email-tpl-desc">Primary delivery email. Link to hosted report. Opportunity score in subject line.</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 1</div><div class="email-tpl-name">Internal Sales Alert</div><div class="email-tpl-desc">Notify assigned salesperson when a High or Very High score audit completes</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 2</div><div class="email-tpl-name">Project Update</div><div class="email-tpl-desc">Notify customer when project moves to key states (implementation, QA, complete)</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 2</div><div class="email-tpl-name">Before/After Report Ready</div><div class="email-tpl-desc">Deliver the proof report when the post-optimization scan is complete</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 2</div><div class="email-tpl-name">Invoice / Payment Request</div><div class="email-tpl-desc">Stripe-generated or custom — link to payment with project summary</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 4</div><div class="email-tpl-name">Monitoring Digest</div><div class="email-tpl-desc">Monthly or quarterly health summary with new issues, health score trend, recommended next steps</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 4</div><div class="email-tpl-name">Issue Detected Alert</div><div class="email-tpl-desc">Triggered when monitoring scan finds new legacy images or payload spike above threshold</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 4</div><div class="email-tpl-name">Regression Alert</div><div class="email-tpl-desc">Previously optimized image was replaced with unoptimized version — requires immediate attention</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 4</div><div class="email-tpl-name">Payment Failed</div><div class="email-tpl-desc">Dunning sequence: 1 day, 3 days, 7 days before cancellation. Link to update payment method.</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 4</div><div class="email-tpl-name">Subscription Renewal</div><div class="email-tpl-desc">Reminder with summary of value delivered — makes renewal feel earned, not automatic</div></div>
+      <div class="email-tpl"><div class="email-phase-tag">Phase 5</div><div class="email-tpl-name">Agency Campaign Complete</div><div class="email-tpl-desc">Bulk audit batch finished — summary of domains scored, top opportunities ranked</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- CLOSING -->
+<section>
+<div class="wrap">
+  <div class="closing">
+    <div class="slabel blue" style="justify-content:center;margin-bottom:16px;">The Only Rule That Matters</div>
+    <div class="closing-title">Does this feature help us find a prospect,<br>prove the opportunity, sell the project, or complete it?</div>
+    <p class="closing-rule">
+      If yes — it belongs in the current phase. If no — it probably belongs in a later phase or not at all.
+      Get the audit and sales engine generating paying projects before investing in automation.
+      Let the first 10–25 paying projects teach you what fulfillment needs.
+      The database you build by operating the business becomes the long-term competitive advantage.
+    </p>
+    <span class="closing-check">✓ Build Phase 1 · Run real domains · Sell from the findings</span>
+  </div>
+</div>
+</section>
+
+<footer>
+  <p><strong>Built to Be Better</strong> · Development Roadmap · Internal Document · 2026 &nbsp;·&nbsp; <a href="architecture.html">← View Architecture Document</a></p>
+</footer>
+
+</body>
+</html>
