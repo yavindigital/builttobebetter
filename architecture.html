@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Built to Be Better — Business & Product Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"/>
+<style>
+:root{
+  --bg:#030712;--surface:#0B1525;--surface-2:#111E36;
+  --border:rgba(255,255,255,0.07);--border-hi:rgba(255,255,255,0.14);
+  --blue:#4A80FF;--blue-dim:rgba(74,128,255,0.12);
+  --orange:#FF5C30;--orange-glow:rgba(255,92,48,0.38);
+  --green:#00E599;--red:#FF4466;--cyan:#38BFFF;--purple:#9D6EFF;
+  --white:#EEF2FF;--muted:rgba(238,242,255,0.52);--muted-2:rgba(238,242,255,0.24);
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --radius:8px;--radius-lg:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);color:var(--white);background:var(--bg);line-height:1.6;font-size:15px;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.arch-nav{position:sticky;top:0;z-index:200;background:rgba(3,7,18,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;}
+.arch-nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:auto;height:56px;}
+.arch-logo{display:flex;align-items:center;gap:10px;}
+.arch-logo-mark{width:30px;height:30px;background:var(--orange);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 16px rgba(255,92,48,0.4);}
+.arch-logo-mark svg{width:16px;height:16px;}
+.arch-logo-text{font-family:var(--font-display);font-size:13px;font-weight:800;letter-spacing:-.2px;}
+.arch-logo-text em{font-style:normal;color:var(--orange);}
+.arch-nav-links{display:flex;align-items:center;gap:2px;}
+.arch-nav-links a{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted-2);padding:6px 12px;border-radius:6px;transition:color .15s,background .15s;white-space:nowrap;}
+.arch-nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.06);}
+.arch-badge{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:100px;background:rgba(157,110,255,0.12);border:1px solid rgba(157,110,255,0.3);color:var(--purple);}
+@media(max-width:900px){.arch-nav-links{display:none;}}
+
+/* HERO */
+.arch-hero{position:relative;overflow:hidden;padding:96px 32px 80px;background:var(--bg);}
+.arch-hero-orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;}
+.arch-hero-orb-1{width:700px;height:700px;background:radial-gradient(circle,rgba(59,90,255,0.55) 0%,transparent 70%);top:-300px;left:-150px;animation:archDrift1 22s ease-in-out infinite;}
+.arch-hero-orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(255,72,0,0.45) 0%,transparent 70%);bottom:-200px;right:-80px;animation:archDrift2 18s ease-in-out infinite;}
+.arch-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:72px 72px;pointer-events:none;}
+@keyframes archDrift1{0%,100%{transform:translate(0,0);}50%{transform:translate(60px,40px);}}
+@keyframes archDrift2{0%,100%{transform:translate(0,0);}50%{transform:translate(-50px,-30px);}}
+.arch-hero-inner{position:relative;max-width:1180px;margin:auto;}
+.arch-eyebrow{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.arch-eyebrow::before{content:'';width:20px;height:1px;background:var(--orange);}
+.arch-hero-title{font-family:var(--font-display);font-size:clamp(36px,5.5vw,72px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;}
+.arch-hero-title span{color:var(--orange);}
+.arch-hero-sub{font-size:18px;color:var(--muted);max-width:620px;line-height:1.8;margin-bottom:40px;}
+.arch-hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.arch-chip{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1px solid var(--border-hi);color:var(--muted-2);}
+.arch-chip.blue{border-color:rgba(74,128,255,0.35);color:var(--blue);background:rgba(74,128,255,0.08);}
+.arch-chip.orange{border-color:rgba(255,92,48,0.35);color:var(--orange);background:rgba(255,92,48,0.08);}
+.arch-chip.green{border-color:rgba(0,229,153,0.35);color:var(--green);background:rgba(0,229,153,0.08);}
+.arch-chip.purple{border-color:rgba(157,110,255,0.35);color:var(--purple);background:rgba(157,110,255,0.08);}
+
+/* SECTIONS */
+.arch-section{padding:80px 32px;max-width:1180px;margin:auto;}
+.arch-section-full{padding:80px 0;}
+.arch-section-full .arch-section-inner{max-width:1180px;margin:auto;padding:0 32px;}
+.arch-section-divider{height:1px;background:var(--border);max-width:100%;margin:0;}
+.arch-label{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.arch-label::before{content:'';width:20px;height:1px;background:var(--blue);}
+.arch-label.orange{color:var(--orange);}
+.arch-label.orange::before{background:var(--orange);}
+.arch-label.green{color:var(--green);}
+.arch-label.green::before{background:var(--green);}
+.arch-label.purple{color:var(--purple);}
+.arch-label.purple::before{background:var(--purple);}
+.arch-title{font-family:var(--font-display);font-size:clamp(24px,3vw,42px);font-weight:800;line-height:1.15;letter-spacing:-1px;margin-bottom:16px;}
+.arch-sub{font-size:15px;color:var(--muted);max-width:580px;line-height:1.8;margin-bottom:40px;}
+
+/* NOT A WEBP CONVERTER */
+.not-webp-block{background:var(--surface);border:1px solid var(--border-hi);border-radius:var(--radius-lg);padding:48px;position:relative;overflow:hidden;}
+.not-webp-block::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(255,92,48,0.06) 0%,transparent 70%);pointer-events:none;}
+.not-vs{display:grid;grid-template-columns:1fr auto 1fr;gap:32px;align-items:center;margin-top:32px;}
+.not-vs-panel{padding:28px;border-radius:var(--radius-lg);border:1px solid var(--border);}
+.not-vs-panel.bad{background:rgba(255,68,102,0.05);border-color:rgba(255,68,102,0.2);}
+.not-vs-panel.good{background:rgba(0,229,153,0.05);border-color:rgba(0,229,153,0.2);}
+.not-vs-label{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.not-vs-panel.bad .not-vs-label{color:var(--red);}
+.not-vs-panel.good .not-vs-label{color:var(--green);}
+.not-vs-text{font-family:var(--font-display);font-size:15px;font-weight:700;line-height:1.5;color:var(--white);}
+.not-vs-arrow{font-size:28px;color:var(--muted-2);text-align:center;}
+@media(max-width:640px){.not-vs{grid-template-columns:1fr;}.not-vs-arrow{transform:rotate(90deg);}}
+
+/* FLYWHEEL */
+.flywheel-wrap{position:relative;padding:48px 0;}
+.flywheel-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.flywheel-step{background:var(--surface);padding:28px 20px;text-align:center;position:relative;}
+.flywheel-step::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--muted-2);font-size:14px;z-index:2;}
+.flywheel-step:last-child::after{display:none;}
+.flywheel-num{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted-2);margin-bottom:8px;}
+.flywheel-word{font-family:var(--font-display);font-size:14px;font-weight:800;letter-spacing:-.3px;line-height:1.2;}
+.flywheel-step:nth-child(1) .flywheel-word{color:var(--blue);}
+.flywheel-step:nth-child(2) .flywheel-word{color:var(--cyan);}
+.flywheel-step:nth-child(3) .flywheel-word{color:var(--orange);}
+.flywheel-step:nth-child(4) .flywheel-word{color:var(--green);}
+.flywheel-step:nth-child(5) .flywheel-word{color:var(--purple);}
+.flywheel-sub{font-size:11px;color:var(--muted-2);margin-top:6px;line-height:1.5;}
+@media(max-width:720px){.flywheel-steps{grid-template-columns:1fr 1fr;}.flywheel-step::after{display:none;}}
+
+/* PRODUCT LADDER */
+.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:40px;}
+.product-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px 28px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;}
+.product-card:hover{transform:translateY(-3px);}
+.product-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .4s;pointer-events:none;}
+.product-card:nth-child(1){border-color:rgba(74,128,255,0.2);}
+.product-card:nth-child(1)::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(74,128,255,0.06) 0%,transparent 70%);}
+.product-card:nth-child(2){border-color:rgba(56,191,255,0.2);}
+.product-card:nth-child(2)::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(56,191,255,0.06) 0%,transparent 70%);}
+.product-card:nth-child(3){border-color:rgba(255,92,48,0.2);}
+.product-card:nth-child(3)::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,92,48,0.06) 0%,transparent 70%);}
+.product-card:nth-child(4){border-color:rgba(0,229,153,0.2);}
+.product-card:nth-child(4)::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,229,153,0.06) 0%,transparent 70%);}
+.product-card:hover::before{opacity:1;}
+.product-num{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;}
+.product-card:nth-child(1) .product-num{color:var(--blue);}
+.product-card:nth-child(2) .product-num{color:var(--cyan);}
+.product-card:nth-child(3) .product-num{color:var(--orange);}
+.product-card:nth-child(4) .product-num{color:var(--green);}
+.product-title{font-family:var(--font-display);font-size:17px;font-weight:800;margin-bottom:10px;line-height:1.3;}
+.product-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.product-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.product-tag{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:100px;border:1px solid var(--border-hi);color:var(--muted-2);}
+.product-pill{display:inline-block;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:12px;}
+.pill-free{background:rgba(0,229,153,0.12);border:1px solid rgba(0,229,153,0.3);color:var(--green);}
+.pill-paid{background:rgba(255,92,48,0.12);border:1px solid rgba(255,92,48,0.3);color:var(--orange);}
+.pill-recurring{background:rgba(157,110,255,0.12);border:1px solid rgba(157,110,255,0.3);color:var(--purple);}
+@media(max-width:640px){.product-grid{grid-template-columns:1fr;}}
+
+/* SCORE BLOCK */
+.score-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:48px;text-align:center;position:relative;overflow:hidden;}
+.score-block::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(74,128,255,0.07) 0%,transparent 70%);pointer-events:none;}
+.score-number{font-family:var(--font-display);font-size:96px;font-weight:800;line-height:1;letter-spacing:-4px;color:var(--blue);text-shadow:0 0 60px rgba(74,128,255,0.4);}
+.score-label{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted-2);margin-top:8px;}
+.score-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;}
+.score-tier{padding:20px 16px;border-radius:var(--radius-lg);border:1px solid var(--border);text-align:left;}
+.score-tier-range{font-family:var(--font-mono);font-size:11px;font-weight:700;margin-bottom:6px;}
+.score-tier-label{font-size:13px;font-weight:700;margin-bottom:4px;}
+.score-tier-desc{font-size:11px;color:var(--muted-2);line-height:1.5;}
+.tier-healthy{border-color:rgba(56,191,255,0.2);background:rgba(56,191,255,0.04);}
+.tier-healthy .score-tier-range,.tier-healthy .score-tier-label{color:var(--cyan);}
+.tier-moderate{border-color:rgba(238,242,255,0.12);background:rgba(238,242,255,0.02);}
+.tier-moderate .score-tier-range,.tier-moderate .score-tier-label{color:var(--muted);}
+.tier-high{border-color:rgba(255,92,48,0.2);background:rgba(255,92,48,0.04);}
+.tier-high .score-tier-range,.tier-high .score-tier-label{color:var(--orange);}
+.tier-very-high{border-color:rgba(255,68,102,0.2);background:rgba(255,68,102,0.04);}
+.tier-very-high .score-tier-range,.tier-very-high .score-tier-label{color:var(--red);}
+@media(max-width:640px){.score-tiers{grid-template-columns:1fr 1fr;}}
+
+/* MVP LIST */
+.mvp-wrap{background:var(--surface);border:1px solid var(--border-hi);border-radius:var(--radius-lg);overflow:hidden;}
+.mvp-header{padding:28px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.mvp-header-title{font-family:var(--font-display);font-size:18px;font-weight:800;}
+.mvp-badge{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:100px;background:rgba(0,229,153,0.12);border:1px solid rgba(0,229,153,0.3);color:var(--green);}
+.mvp-list{list-style:none;padding:0;}
+.mvp-item{display:flex;align-items:flex-start;gap:20px;padding:20px 32px;border-bottom:1px solid var(--border);transition:background .2s;}
+.mvp-item:last-child{border-bottom:none;}
+.mvp-item:hover{background:rgba(255,255,255,0.025);}
+.mvp-num{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--green);min-width:28px;padding-top:2px;}
+.mvp-text{font-size:14px;color:var(--white);font-weight:500;line-height:1.5;}
+.mvp-text em{font-style:normal;color:var(--muted-2);font-size:12px;display:block;margin-top:2px;}
+
+/* PHASES TIMELINE */
+.phases-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:40px;}
+.phase-card{padding:24px 20px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden;}
+.phase-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.phase-1::before{background:var(--blue);}
+.phase-2::before{background:var(--orange);}
+.phase-3::before{background:var(--cyan);}
+.phase-4::before{background:var(--green);}
+.phase-5::before{background:var(--purple);}
+.phase-tag{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.phase-1 .phase-tag{color:var(--blue);}
+.phase-2 .phase-tag{color:var(--orange);}
+.phase-3 .phase-tag{color:var(--cyan);}
+.phase-4 .phase-tag{color:var(--green);}
+.phase-5 .phase-tag{color:var(--purple);}
+.phase-title{font-family:var(--font-display);font-size:13px;font-weight:800;margin-bottom:12px;line-height:1.3;}
+.phase-items{list-style:none;font-size:11px;color:var(--muted-2);line-height:2;}
+.phase-items li::before{content:'→ ';color:var(--muted-2);}
+@media(max-width:900px){.phases-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.phases-grid{grid-template-columns:1fr;}}
+
+/* FIVE SYSTEMS */
+.systems-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:40px;}
+.system-card{padding:28px 20px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--surface);text-align:center;}
+.system-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px;}
+.system-card:nth-child(1) .system-icon{background:rgba(74,128,255,0.12);border:1px solid rgba(74,128,255,0.25);}
+.system-card:nth-child(2) .system-icon{background:rgba(255,92,48,0.12);border:1px solid rgba(255,92,48,0.25);}
+.system-card:nth-child(3) .system-icon{background:rgba(0,229,153,0.12);border:1px solid rgba(0,229,153,0.25);}
+.system-card:nth-child(4) .system-icon{background:rgba(56,191,255,0.12);border:1px solid rgba(56,191,255,0.25);}
+.system-card:nth-child(5) .system-icon{background:rgba(157,110,255,0.12);border:1px solid rgba(157,110,255,0.25);}
+.system-title{font-family:var(--font-display);font-size:13px;font-weight:800;margin-bottom:8px;line-height:1.3;}
+.system-desc{font-size:11px;color:var(--muted-2);line-height:1.6;}
+@media(max-width:900px){.systems-grid{grid-template-columns:1fr 1fr 1fr;}}
+@media(max-width:520px){.systems-grid{grid-template-columns:1fr 1fr;}}
+
+/* DATA ENTITIES */
+.entities-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:32px;}
+.entity-pill{padding:14px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);font-size:12px;font-weight:600;color:var(--white);}
+.entity-pill span{display:block;font-family:var(--font-mono);font-size:9px;color:var(--muted-2);font-weight:400;margin-top:3px;letter-spacing:.5px;}
+@media(max-width:720px){.entities-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:480px){.entities-grid{grid-template-columns:1fr 1fr;}}
+
+/* PRINCIPLES */
+.principles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px;}
+.principle-card{padding:24px 20px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--surface);}
+.principle-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:6px;}
+.principle-desc{font-size:12px;color:var(--muted-2);line-height:1.6;}
+@media(max-width:720px){.principles-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.principles-grid{grid-template-columns:1fr;}}
+
+/* DEV ORDER */
+.dev-order{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:32px;}
+.dev-order-item{display:flex;align-items:flex-start;gap:14px;padding:18px 20px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--surface);}
+.dev-order-num{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--orange);min-width:24px;}
+.dev-order-text{font-size:13px;color:var(--white);font-weight:500;line-height:1.5;}
+@media(max-width:640px){.dev-order{grid-template-columns:1fr;}}
+
+/* CLOSING */
+.closing-block{background:var(--surface);border:1px solid var(--border-hi);border-radius:var(--radius-lg);padding:64px 48px;text-align:center;position:relative;overflow:hidden;}
+.closing-block::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(74,128,255,0.07) 0%,transparent 70%);pointer-events:none;}
+.closing-lines{display:flex;flex-direction:column;gap:12px;margin:32px auto;max-width:640px;}
+.closing-line{font-family:var(--font-display);font-size:clamp(20px,2.8vw,34px);font-weight:800;letter-spacing:-1px;line-height:1.15;}
+.closing-line:nth-child(1){color:var(--blue);}
+.closing-line:nth-child(2){color:var(--cyan);}
+.closing-line:nth-child(3){color:var(--orange);}
+.closing-line:nth-child(4){color:var(--green);}
+.closing-note{font-size:14px;color:var(--muted);max-width:600px;margin:24px auto 0;line-height:1.8;}
+
+/* CLASSIFICATION PILL */
+.data-types{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+.data-type{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;border-radius:100px;border:1px solid;}
+.dt-measured{border-color:rgba(0,229,153,0.4);color:var(--green);background:rgba(0,229,153,0.08);}
+.dt-calculated{border-color:rgba(74,128,255,0.4);color:var(--blue);background:rgba(74,128,255,0.08);}
+.dt-estimated{border-color:rgba(255,92,48,0.4);color:var(--orange);background:rgba(255,92,48,0.08);}
+.dt-projected{border-color:rgba(157,110,255,0.4);color:var(--purple);background:rgba(157,110,255,0.08);}
+
+/* PIPELINE */
+.pipeline{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:24px;}
+.pipe-state{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid var(--border-hi);color:var(--muted-2);white-space:nowrap;}
+.pipe-state.active{border-color:rgba(74,128,255,0.35);color:var(--blue);background:rgba(74,128,255,0.08);}
+.pipe-state.won{border-color:rgba(0,229,153,0.35);color:var(--green);background:rgba(0,229,153,0.08);}
+.pipe-state.lost{border-color:rgba(255,68,102,0.35);color:var(--red);background:rgba(255,68,102,0.08);}
+.pipe-arrow{color:var(--muted-2);font-size:12px;}
+
+/* FOOTER */
+.arch-footer{border-top:1px solid var(--border);padding:32px;text-align:center;}
+.arch-footer p{font-size:12px;color:var(--muted-2);}
+.arch-footer strong{color:var(--white);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="arch-nav">
+  <div class="arch-nav-inner">
+    <div class="arch-logo">
+      <div class="arch-logo-mark">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 13L8 3L13 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 9H10.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="arch-logo-text">Built to Be <em>Better</em></div>
+    </div>
+    <div class="arch-nav-links">
+      <a href="#vision">Vision</a>
+      <a href="#flywheel">Flywheel</a>
+      <a href="#products">Products</a>
+      <a href="#score">Score</a>
+      <a href="#mvp">MVP</a>
+      <a href="#phases">Phases</a>
+      <a href="#systems">Systems</a>
+      <a href="#principles">Principles</a>
+      <a href="#order">Dev Order</a>
+    </div>
+    <span class="arch-badge">Internal · Architecture</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="arch-hero">
+  <div class="arch-hero-orb arch-hero-orb-1"></div>
+  <div class="arch-hero-orb arch-hero-orb-2"></div>
+  <div class="arch-hero-grid"></div>
+  <div class="arch-hero-inner">
+    <div class="arch-eyebrow">Business &amp; Product Architecture</div>
+    <h1 class="arch-hero-title">Built to Be Better<br><span>Platform Architecture</span></h1>
+    <p class="arch-hero-sub">
+      This is not a WebP converter. This is an audit → opportunity → sale → fulfillment → proof → monitoring platform.
+      Everything we build should reinforce that lifecycle.
+    </p>
+    <div class="arch-hero-chips">
+      <span class="arch-chip blue">Website Intelligence</span>
+      <span class="arch-chip orange">Opportunity Engine</span>
+      <span class="arch-chip">Sales Engine</span>
+      <span class="arch-chip green">Before / After Proof</span>
+      <span class="arch-chip purple">Recurring Monitoring</span>
+    </div>
+  </div>
+</section>
+
+<hr class="arch-section-divider">
+
+<!-- VISION / NOT A WEBP CONVERTER -->
+<div class="arch-section" id="vision">
+  <div class="arch-label">Core Vision</div>
+  <h2 class="arch-title">This is not a WebP converter.</h2>
+  <p class="arch-sub">The product should be understood and built as an image intelligence, remediation and monitoring platform.</p>
+
+  <div class="not-webp-block">
+    <div class="not-vs">
+      <div class="not-vs-panel bad">
+        <div class="not-vs-label">❌ Wrong Mental Model</div>
+        <div class="not-vs-text">"A tool that converts JPG and PNG files to WebP."</div>
+      </div>
+      <div class="not-vs-arrow">→</div>
+      <div class="not-vs-panel good">
+        <div class="not-vs-label">✓ Correct Mental Model</div>
+        <div class="not-vs-text">"A website image intelligence, remediation and monitoring platform that identifies unnecessary image weight, quantifies the opportunity, facilitates remediation and proves the result."</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <div class="arch-label">Data Integrity — Always Distinguish</div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px;max-width:560px;">Every result reported must be classified internally. Never present an estimate as a measured fact.</p>
+    <div class="data-types">
+      <span class="data-type dt-measured">Measured</span>
+      <span class="data-type dt-calculated">Calculated</span>
+      <span class="data-type dt-estimated">Estimated</span>
+      <span class="data-type dt-projected">Projected</span>
+    </div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- BUSINESS FLYWHEEL -->
+<div class="arch-section" id="flywheel">
+  <div class="arch-label orange">Business Flywheel</div>
+  <h2 class="arch-title">Audit first. Optimize second.</h2>
+  <p class="arch-sub">The entire business architecture is built around five sequential functions. Every feature should serve one of these.</p>
+
+  <div class="flywheel-steps">
+    <div class="flywheel-step">
+      <div class="flywheel-num">01</div>
+      <div class="flywheel-word">Find</div>
+      <div class="flywheel-sub">Discover sites with real opportunity</div>
+    </div>
+    <div class="flywheel-step">
+      <div class="flywheel-num">02</div>
+      <div class="flywheel-word">Measure</div>
+      <div class="flywheel-sub">Quantify payload, savings, complexity</div>
+    </div>
+    <div class="flywheel-step">
+      <div class="flywheel-num">03</div>
+      <div class="flywheel-word">Sell</div>
+      <div class="flywheel-sub">Turn audit data into a proposal</div>
+    </div>
+    <div class="flywheel-step">
+      <div class="flywheel-num">04</div>
+      <div class="flywheel-word">Fulfill</div>
+      <div class="flywheel-sub">Safely optimize & replace assets</div>
+    </div>
+    <div class="flywheel-step">
+      <div class="flywheel-num">05</div>
+      <div class="flywheel-word">Prove</div>
+      <div class="flywheel-sub">Before/after report + monitoring</div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <div class="arch-label orange">The Audit Does Four Jobs at Once</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;">
+      <div style="padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);">
+        <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Diagnostic</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;">Identifies the technical condition of image assets</div>
+      </div>
+      <div style="padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);">
+        <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;">Qualification</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;">Determines whether the prospect is worth pursuing</div>
+      </div>
+      <div style="padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);">
+        <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">Sales</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;">Gives objective evidence supporting optimization</div>
+      </div>
+      <div style="padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);">
+        <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;">Scoping</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;">Provides data to estimate project size and pricing</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- PRODUCT LADDER -->
+<div class="arch-section" id="products">
+  <div class="arch-label">Product Ladder</div>
+  <h2 class="arch-title">Four connected products, not one service.</h2>
+  <p class="arch-sub">Each product feeds the next. The free audit generates revenue for the optimization project, which earns the right to sell monitoring.</p>
+
+  <div class="product-grid">
+    <div class="product-card">
+      <span class="product-pill pill-free">Free Lead Gen</span>
+      <div class="product-num">Product 1</div>
+      <div class="product-title">Free Website Image Opportunity Audit</div>
+      <div class="product-desc">Fast and intentionally limited. Answers one question: <em>"Is there an optimization opportunity worth investigating?"</em> This is the top of the sales funnel — not a delivery product.</div>
+      <div class="product-tags">
+        <span class="product-tag">Pages discovered vs analyzed</span>
+        <span class="product-tag">Image payload</span>
+        <span class="product-tag">Estimated savings</span>
+        <span class="product-tag">Opportunity score</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <span class="product-pill pill-paid">Paid / Included</span>
+      <div class="product-num">Product 2</div>
+      <div class="product-title">Comprehensive Image Asset Audit</div>
+      <div class="product-desc">Deeper analysis. May be sold independently or included with a project. Produces the full technical project map — every asset, source page, format, size, eligibility and complexity factor.</div>
+      <div class="product-tags">
+        <span class="product-tag">Complete first-party inventory</span>
+        <span class="product-tag">Duplicate assets</span>
+        <span class="product-tag">srcset / responsive variants</span>
+        <span class="product-tag">CDN involvement</span>
+        <span class="product-tag">Platform limitations</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <span class="product-pill pill-paid">Primary Revenue</span>
+      <div class="product-num">Product 3</div>
+      <div class="product-title">Image Optimization Project</div>
+      <div class="product-desc">The remediation service. Must support three fulfillment modes: direct implementation (we do it), assisted implementation (we hand off optimized files), and third-party limitation (assets we can't touch).</div>
+      <div class="product-tags">
+        <span class="product-tag">Direct implementation</span>
+        <span class="product-tag">Assisted implementation</span>
+        <span class="product-tag">Third-party limitation</span>
+        <span class="product-tag">Before/after proof</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <span class="product-pill pill-recurring">Recurring Revenue</span>
+      <div class="product-num">Product 4</div>
+      <div class="product-title">Image Health Monitoring</div>
+      <div class="product-desc">Periodic rescan after optimization. Detects new images added, newly inefficient assets, and payload drift. This is how a one-time project becomes a monthly subscription.</div>
+      <div class="product-tags">
+        <span class="product-tag">Monthly / quarterly scans</span>
+        <span class="product-tag">New issue detection</span>
+        <span class="product-tag">Health trend reporting</span>
+        <span class="product-tag">Managed optimization</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- OPPORTUNITY SCORE -->
+<div class="arch-section" id="score">
+  <div class="arch-label purple">Opportunity Engine</div>
+  <h2 class="arch-title">Every audit gets a score.</h2>
+  <p class="arch-sub">The score turns 500 websites into a prioritized prospect list. Salespeople spend time where the data says opportunity is highest. Scoring thresholds must be configurable — never hardcoded.</p>
+
+  <div class="score-block" style="margin-top:0;">
+    <div class="score-number">87</div>
+    <div class="score-label">Image Optimization Opportunity Score</div>
+    <div class="score-tiers">
+      <div class="score-tier tier-healthy">
+        <div class="score-tier-range">0 – 30</div>
+        <div class="score-tier-label">Healthy</div>
+        <div class="score-tier-desc">Little meaningful opportunity. Do not aggressively sell.</div>
+      </div>
+      <div class="score-tier tier-moderate">
+        <div class="score-tier-range">31 – 60</div>
+        <div class="score-tier-label">Moderate</div>
+        <div class="score-tier-desc">Some opportunity. Recommend review depending on context.</div>
+      </div>
+      <div class="score-tier tier-high">
+        <div class="score-tier-range">61 – 80</div>
+        <div class="score-tier-label">High</div>
+        <div class="score-tier-desc">Meaningful opportunity. Recommend an optimization review.</div>
+      </div>
+      <div class="score-tier tier-very-high">
+        <div class="score-tier-range">81 – 100</div>
+        <div class="score-tier-label">Very High</div>
+        <div class="score-tier-label" style="font-size:11px;margin-top:0;">Strong sales prospect.</div>
+        <div class="score-tier-desc">Large measurable opportunity.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="arch-label purple">Scoring Inputs</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;">
+      <span class="arch-chip">Image Volume</span>
+      <span class="arch-chip">Legacy Image %</span>
+      <span class="arch-chip">Current Payload</span>
+      <span class="arch-chip">Estimated Reduction</span>
+      <span class="arch-chip">Oversized Asset Ratio</span>
+      <span class="arch-chip">First-Party Control %</span>
+      <span class="arch-chip">Site Scale</span>
+      <span class="arch-chip">Repeat Image Activity</span>
+    </div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- MVP -->
+<div class="arch-section" id="mvp">
+  <div class="arch-label green">Phase 1 MVP</div>
+  <h2 class="arch-title">Get the sales engine working first.</h2>
+  <p class="arch-sub">The MVP is successful when the business can find a good prospect, prove the opportunity, and sell the project — without developer intervention.</p>
+
+  <div class="mvp-wrap">
+    <div class="mvp-header">
+      <div class="mvp-header-title">Phase 1 — Build List</div>
+      <span class="mvp-badge">Launch Requirements</span>
+    </div>
+    <ul class="mvp-list">
+      <li class="mvp-item"><span class="mvp-num">01</span><span class="mvp-text">Domain submission + URL normalization<em>Customer-initiated and internal prospecting</em></span></li>
+      <li class="mvp-item"><span class="mvp-num">02</span><span class="mvp-text">Page discovery with configurable crawl limits<em>Max discovery URLs, analyzed pages, depth, concurrency</em></span></li>
+      <li class="mvp-item"><span class="mvp-num">03</span><span class="mvp-text">First-party / third-party image detection<em>Critical — never sell third-party images as controllable opportunity</em></span></li>
+      <li class="mvp-item"><span class="mvp-num">04</span><span class="mvp-text">Image format identification + file size measurement</span></li>
+      <li class="mvp-item"><span class="mvp-num">05</span><span class="mvp-text">Conversion and savings estimation</span></li>
+      <li class="mvp-item"><span class="mvp-num">06</span><span class="mvp-text">Pages discovered vs. analyzed — stored separately<em>Never conflate discovery with analysis</em></span></li>
+      <li class="mvp-item"><span class="mvp-num">07</span><span class="mvp-text">Images discovered vs. images analyzed — stored separately</span></li>
+      <li class="mvp-item"><span class="mvp-num">08</span><span class="mvp-text">Audit result storage with full history<em>Never overwrite old audits — trend data becomes valuable later</em></span></li>
+      <li class="mvp-item"><span class="mvp-num">09</span><span class="mvp-text">Opportunity scoring (configurable thresholds)</span></li>
+      <li class="mvp-item"><span class="mvp-num">10</span><span class="mvp-text">Customer-facing audit report — sales-ready</span></li>
+      <li class="mvp-item"><span class="mvp-num">11</span><span class="mvp-text">Internal admin dashboard with crawl status, errors, scores</span></li>
+      <li class="mvp-item"><span class="mvp-num">12</span><span class="mvp-text">Basic prospect / sales status tracking</span></li>
+      <li class="mvp-item"><span class="mvp-num">13</span><span class="mvp-text">Report email / delivery capability</span></li>
+      <li class="mvp-item"><span class="mvp-num">14</span><span class="mvp-text">Audit history + audit methodology / disclaimer on every report</span></li>
+      <li class="mvp-item"><span class="mvp-num">15</span><span class="mvp-text">Error handling that surfaces failures to operators — not server logs</span></li>
+      <li class="mvp-item"><span class="mvp-num">16</span><span class="mvp-text">Queue-based architecture — crawling never happens in a synchronous request</span></li>
+      <li class="mvp-item"><span class="mvp-num">17</span><span class="mvp-text">CSV export</span></li>
+    </ul>
+  </div>
+
+  <div style="margin-top:32px;padding:28px;border:1px solid rgba(255,68,102,0.2);border-radius:var(--radius-lg);background:rgba(255,68,102,0.04);">
+    <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;">Do Not Block Launch On These</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">Automated site replacement</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">Complex subscriptions</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">White-label agency portal</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">Advanced billing</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">AI recommendations</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">Automatic proposals</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">Automated rollback</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">AVIF optimization</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">Enterprise SSO</span>
+      <span style="font-size:11px;color:var(--muted-2);padding:5px 12px;border:1px solid var(--border);border-radius:100px;">Native mobile app</span>
+    </div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- SALES PIPELINE -->
+<div class="arch-section">
+  <div class="arch-label orange">Internal CRM / Sales Pipeline</div>
+  <h2 class="arch-title">Track state, not just notes.</h2>
+  <p class="arch-sub">The product needs a basic internal sales state machine. Do not rely entirely on notes. This is how audits become revenue.</p>
+  <div class="pipeline">
+    <span class="pipe-state">New Domain</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state">Audit Queued</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state active">Audit Complete</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state">Sales Qualified</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state">Report Sent</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state">Review Scheduled</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state">Proposal Sent</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state won">Won</span>
+    <span class="pipe-state lost">Lost</span>
+    <span class="pipe-arrow">→</span>
+    <span class="pipe-state active">Optimization In Progress</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state">Optimization Complete</span><span class="pipe-arrow">→</span>
+    <span class="pipe-state active">Monitoring</span>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- PHASES -->
+<div class="arch-section" id="phases">
+  <div class="arch-label">Development Phases</div>
+  <h2 class="arch-title">Five phases. One proven model.</h2>
+  <p class="arch-sub">Build in order. Don't build Phase 3 automation before Phase 1 audits are creating paying projects. Each phase earns the right to build the next.</p>
+
+  <div class="phases-grid">
+    <div class="phase-card phase-1">
+      <div class="phase-tag">Phase 1</div>
+      <div class="phase-title">Sales Engine</div>
+      <ul class="phase-items">
+        <li>Domain intake &amp; crawling</li>
+        <li>Image analysis</li>
+        <li>Opportunity scoring</li>
+        <li>Audit report</li>
+        <li>Admin dashboard</li>
+        <li>Sales state machine</li>
+      </ul>
+    </div>
+    <div class="phase-card phase-2">
+      <div class="phase-tag">Phase 2</div>
+      <div class="phase-title">Fulfillment System</div>
+      <ul class="phase-items">
+        <li>Optimization projects</li>
+        <li>Asset work queue</li>
+        <li>File preservation</li>
+        <li>Technician workflow</li>
+        <li>Post-optimization scan</li>
+        <li>Before/after report</li>
+      </ul>
+    </div>
+    <div class="phase-card phase-3">
+      <div class="phase-tag">Phase 3</div>
+      <div class="phase-title">Automation</div>
+      <ul class="phase-items">
+        <li>WordPress automation</li>
+        <li>WooCommerce</li>
+        <li>Shopify</li>
+        <li>Selected CMS platforms</li>
+        <li>CDN environments</li>
+        <li>Based on real patterns</li>
+      </ul>
+    </div>
+    <div class="phase-card phase-4">
+      <div class="phase-tag">Phase 4</div>
+      <div class="phase-title">Monitoring</div>
+      <ul class="phase-items">
+        <li>Scheduled audits</li>
+        <li>Comparison engine</li>
+        <li>New asset detection</li>
+        <li>Image health score</li>
+        <li>Alerts &amp; reports</li>
+        <li>Recurring revenue</li>
+      </ul>
+    </div>
+    <div class="phase-card phase-5">
+      <div class="phase-tag">Phase 5</div>
+      <div class="phase-title">Agency / Enterprise</div>
+      <ul class="phase-items">
+        <li>Bulk domain import</li>
+        <li>Organizations &amp; subaccounts</li>
+        <li>White-label reports</li>
+        <li>Partner pricing</li>
+        <li>API access</li>
+        <li>Account analytics</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- FIVE SYSTEMS -->
+<div class="arch-section" id="systems">
+  <div class="arch-label cyan">Architecture</div>
+  <h2 class="arch-title">Five interconnected systems.</h2>
+  <p class="arch-sub">The developer should understand that Built to Be Better is not one application. It is five systems working together. Every feature belongs to one of these five.</p>
+
+  <div class="systems-grid">
+    <div class="system-card">
+      <div class="system-icon">🔍</div>
+      <div class="system-title">Website Intelligence System</div>
+      <div class="system-desc">Crawls domains. Finds pages. Identifies assets. Separates first-party from third-party. Measures what is actually there.</div>
+    </div>
+    <div class="system-card">
+      <div class="system-icon">📊</div>
+      <div class="system-title">Opportunity Engine</div>
+      <div class="system-desc">Scores the audit. Classifies the prospect. Determines whether a valuable problem exists. Powers the prioritized prospect list.</div>
+    </div>
+    <div class="system-card">
+      <div class="system-icon">💬</div>
+      <div class="system-title">Sales Engine</div>
+      <div class="system-desc">Generates the report. Tracks the pipeline. Converts an audit result into a proposal and a proposal into a project.</div>
+    </div>
+    <div class="system-card">
+      <div class="system-icon">⚙️</div>
+      <div class="system-title">Fulfillment Engine</div>
+      <div class="system-desc">Manages optimization projects. Preserves originals. Tracks replacements. Every change is traceable with a recovery path.</div>
+    </div>
+    <div class="system-card">
+      <div class="system-icon">🔄</div>
+      <div class="system-title">Monitoring Engine</div>
+      <div class="system-desc">Periodically rescans. Compares against baseline. Detects new issues. Prevents the problem from quietly returning. Generates recurring revenue.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- DATA ENTITIES -->
+<div class="arch-section">
+  <div class="arch-label">Core Data Entities</div>
+  <h2 class="arch-title">What the database needs to model.</h2>
+  <p class="arch-sub">Historical preservation is a requirement. Never destroy previous scan data because a newer audit exists. Trend history becomes valuable later.</p>
+  <div class="entities-grid">
+    <div class="entity-pill">Account<span>Customer or agency</span></div>
+    <div class="entity-pill">User<span>Individual system user</span></div>
+    <div class="entity-pill">Domain<span>Website being analyzed</span></div>
+    <div class="entity-pill">Prospect<span>Potential customer</span></div>
+    <div class="entity-pill">Campaign<span>Group of prospecting domains</span></div>
+    <div class="entity-pill">Audit<span>A specific analysis event</span></div>
+    <div class="entity-pill">Crawl Job<span>Website crawl process</span></div>
+    <div class="entity-pill">Page<span>Discovered webpage</span></div>
+    <div class="entity-pill">Image Asset<span>Individual image resource</span></div>
+    <div class="entity-pill">Image Observation<span>Image in a specific audit</span></div>
+    <div class="entity-pill">Optimization Finding<span>Problem or opportunity</span></div>
+    <div class="entity-pill">Opportunity Score<span>Calculated opportunity</span></div>
+    <div class="entity-pill">Report<span>Customer-facing output</span></div>
+    <div class="entity-pill">Sales Opportunity<span>Commercial opportunity</span></div>
+    <div class="entity-pill">Proposal<span>Commercial offer</span></div>
+    <div class="entity-pill">Optimization Project<span>Approved remediation</span></div>
+    <div class="entity-pill">Optimization Asset<span>Asset in a project</span></div>
+    <div class="entity-pill">Deployment<span>Replacement event</span></div>
+    <div class="entity-pill">Verification<span>Post-deployment QA</span></div>
+    <div class="entity-pill">Monitoring Scan<span>Recurring health check</span></div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- PRINCIPLES -->
+<div class="arch-section" id="principles">
+  <div class="arch-label purple">Development Principles</div>
+  <h2 class="arch-title">The rules that cannot be broken.</h2>
+
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-title">Accuracy Over Drama</div>
+      <div class="principle-desc">Never make a report more impressive by overstating what was measured. A wrong confident number destroys trust faster than a qualified right one.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Measured vs. Estimated</div>
+      <div class="principle-desc">Always distinguish them. Label every result. The platform's credibility depends on this. Every result must be classified as MEASURED, CALCULATED, ESTIMATED or PROJECTED.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Safety First</div>
+      <div class="principle-desc">No production asset is replaced without a recovery path. Original file, URL, replacement, timestamp, project ID, who approved, who performed — all preserved.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Configurability</div>
+      <div class="principle-desc">Thresholds, crawl limits, and scoring rules must not require code deployments to change. Pricing rules must not be buried in application code.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Observability</div>
+      <div class="principle-desc">Operators must understand why a crawl failed. Surface failures clearly. Do not force developers to inspect server logs for routine business operations.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Historical Preservation</div>
+      <div class="principle-desc">Never destroy previous scan data. Don't overwrite old audits with new ones. Trend history and baseline data become increasingly valuable over time.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Queue-Based Architecture</div>
+      <div class="principle-desc">Crawling and image analysis never occur inside normal synchronous page requests. Every job has a status: QUEUED, RUNNING, COMPLETED, FAILED, RETRYING, CANCELLED.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Human Override</div>
+      <div class="principle-desc">Staff must be able to correct classifications and decisions. Automation should augment human judgment, not eliminate the ability to override it.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Platform Independence</div>
+      <div class="principle-desc">Do not create unnecessary customer dependence on Built to Be Better infrastructure. Optimized assets should remain usable by the customer independently.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Credential Security</div>
+      <div class="principle-desc">WordPress, SFTP, API keys and hosting credentials are never stored as plain database text. Encrypted. Role-scoped. Audit logged. Never in application logs.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Discover vs. Analyze</div>
+      <div class="principle-desc">Pages discovered and pages analyzed are fundamentally different things. The database must store them separately. Reports must never conflate them.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-title">Image Claims vs. Speed Claims</div>
+      <div class="principle-desc">Report "47% image payload reduction" when measured. Do not automatically claim "47% faster website." Speed is affected by JS, CSS, server, fonts, CDN and more.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- IMMEDIATE DEV ORDER -->
+<div class="arch-section" id="order">
+  <div class="arch-label orange">Immediate Development Order</div>
+  <h2 class="arch-title">If uncertain about what to build next — use this.</h2>
+  <p class="arch-sub" style="margin-bottom:0;">Ask: <em style="font-style:italic;color:var(--white);">"Does this feature help us find a good prospect, prove the opportunity, sell the project, or complete the project?"</em> If yes — it belongs. If no — it probably doesn't.</p>
+
+  <ul class="dev-order">
+    <li class="dev-order-item"><span class="dev-order-num">01</span><span class="dev-order-text">Make crawling reliable.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">02</span><span class="dev-order-text">Make measurement trustworthy.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">03</span><span class="dev-order-text">Clearly separate discovered, measured, estimated and projected data.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">04</span><span class="dev-order-text">Build opportunity scoring.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">05</span><span class="dev-order-text">Build a report that a salesperson can actually sell from.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">06</span><span class="dev-order-text">Build the internal admin and sales workflow.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">07</span><span class="dev-order-text">Start running real domains through it.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">08</span><span class="dev-order-text">Use actual projects to determine fulfillment automation requirements.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">09</span><span class="dev-order-text">Build the before/after proof system.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">10</span><span class="dev-order-text">Add recurring monitoring.</span></li>
+    <li class="dev-order-item"><span class="dev-order-num">11</span><span class="dev-order-text">Add agency/enterprise capabilities after the model is proven.</span></li>
+  </ul>
+</div>
+
+<hr class="arch-section-divider">
+
+<!-- CLOSING -->
+<div class="arch-section">
+  <div class="closing-block">
+    <div class="arch-label" style="justify-content:center;">Final Product Principle</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(18px,2.5vw,30px);font-weight:800;letter-spacing:-.5px;color:var(--muted);margin-bottom:0;">Everything should reinforce one simple customer experience:</h2>
+    <div class="closing-lines">
+      <div class="closing-line">Find the Weight.</div>
+      <div class="closing-line">Measure the Opportunity.</div>
+      <div class="closing-line">Remove What Doesn't Need to Be There.</div>
+      <div class="closing-line">Prove the Difference.</div>
+    </div>
+    <div style="height:1px;background:var(--border);max-width:480px;margin:24px auto;"></div>
+    <p class="closing-note">
+      Do not spend six months automating fulfillment before the audit and sales engine are producing paying projects.
+      Get the intelligence layer trustworthy, run real sites through it, sell from the findings,
+      and let the first 10–25 paying projects teach you what fulfillment actually needs to automate.
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="arch-footer">
+  <p><strong>Built to Be Better</strong> · Business &amp; Product Architecture · Internal Document · 2026</p>
+</footer>
+
+</body>
+</html>
