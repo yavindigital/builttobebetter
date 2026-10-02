@@ -30,12 +30,12 @@
     </button>
     <nav class="main-nav" id="main-nav" aria-label="Main navigation">
       ${navLinks}
-      <button onclick="openAuditForm()" class="nav-cta" style="font-family:inherit;cursor:pointer;">${S.ctaLabel}</button>
+      <button onclick="openAuditForm(this)" class="nav-cta" style="font-family:inherit;cursor:pointer;">${S.ctaLabel}</button>
     </nav>
   </div>
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     ${navLinks}
-    <button onclick="openAuditForm()" class="mobile-cta" style="font-family:inherit;cursor:pointer;border:none;width:100%;">${S.ctaLabel}</button>
+    <button onclick="openAuditForm(this)" class="mobile-cta" style="font-family:inherit;cursor:pointer;border:none;width:100%;">${S.ctaLabel}</button>
   </div>
 </header>`;
 
@@ -70,7 +70,7 @@
     <div class="footer-col">
       <h4>Services</h4>
       <ul>
-        <li><a href="#audit-form">Website Image Audit</a></li>
+        <li><button type="button" class="footer-link-btn" onclick="openAuditForm(this)">Website Image Audit</button></li>
         <li><a href="#optimization">Image Optimization</a></li>
         <li><a href="#optimization">WebP Conversion</a></li>
       </ul>
