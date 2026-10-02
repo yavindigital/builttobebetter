@@ -170,7 +170,7 @@
     <h2 class="section-title">See the Opportunity Before You Spend Money Fixing It.</h2>
     <p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:16px;">The audit is the diagnostic. We show you what is there, what may be optimized, and what the potential savings look like.</p>
     <p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:32px;">We audit the site first. You see the numbers. If the opportunity makes sense, we can handle the optimization for you.</p>
-    <button class="btn-primary" onclick="openAuditForm()">
+    <button class="btn-primary" onclick="openAuditForm(this)">
       Run My Free Audit
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
@@ -412,7 +412,7 @@
 
   <!-- Bottom CTA strip -->
   <div class="hiw-cta" style="text-align:center;padding:56px 32px 88px;border-top:1px solid var(--border);">
-    <button class="btn-primary" onclick="openAuditForm()" style="font-size:15px;padding:16px 40px;">
+    <button class="btn-primary" onclick="openAuditForm(this)" style="font-size:15px;padding:16px 40px;">
       Run My Free Audit
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
@@ -867,7 +867,7 @@
 
   <!-- Bottom CTA -->
   <div style="text-align:center;padding:52px 32px 80px;border-top:1px solid var(--border);">
-    <button class="btn-primary" onclick="openAuditForm()" style="font-size:15px;padding:16px 40px;">
+    <button class="btn-primary" onclick="openAuditForm(this)" style="font-size:15px;padding:16px 40px;">
       Run My Free Audit
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
@@ -996,7 +996,7 @@
     <h2 class="section-title">Stop Guessing About Your Website's Images.</h2>
     <p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:36px;">Enter your website. We will analyze the image resources we can access and email your report when the audit is complete.</p>
     <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:20px;">
-      <button class="btn-primary" onclick="openAuditForm()" style="font-size:15px;padding:16px 40px;">
+      <button class="btn-primary" onclick="openAuditForm(this)" style="font-size:15px;padding:16px 40px;">
         Run My Free Website Audit
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
@@ -1124,15 +1124,49 @@ function togglePlainSpeak(){
 }
 
 /* ── HERO URL FORM ── */
+var AUDIT_FORM_BASE = 'https://n8n.yavindigital.com/form/00eabfb0-9a06-4f2e-b309-40e0f7d70123';
+
+function auditFormSrc(prefillUrl){
+  if(prefillUrl){
+    return AUDIT_FORM_BASE + '?Website%20URL=' + encodeURIComponent(prefillUrl);
+  }
+  return AUDIT_FORM_BASE;
+}
+
+function setAuditPageInert(on){
+  var modal = document.getElementById('audit-modal');
+  var kids = document.body.children;
+  for(var i = 0; i < kids.length; i++){
+    if(kids[i] === modal) continue;
+    if(on) kids[i].setAttribute('inert', '');
+    else kids[i].removeAttribute('inert');
+  }
+}
+
 function handleHeroAudit(e){
   e.preventDefault();
-  openAuditForm();
+  var input = document.getElementById('hero-url-input');
+  var url = input ? input.value.trim() : '';
+  var trigger = e.submitter || (e.currentTarget && e.currentTarget.querySelector('button'));
+  openAuditForm(trigger, url);
 }
 
 /* ── AUDIT FORM MODAL ── */
-function openAuditForm(){
-  window._auditTrigger = document.activeElement;
-  let m = document.getElementById('audit-modal');
+function openAuditForm(trigger, prefillUrl){
+  var returnFocus = (trigger && trigger.nodeType === 1) ? trigger : null;
+  var menu = document.getElementById('mobile-menu');
+  var toggle = document.getElementById('hamburger');
+  if(menu && returnFocus && menu.contains(returnFocus)){
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden', 'true');
+    if(toggle){
+      toggle.setAttribute('aria-expanded', 'false');
+      returnFocus = toggle;
+    }
+  }
+  window._auditTrigger = returnFocus;
+  var src = auditFormSrc(prefillUrl);
+  var m = document.getElementById('audit-modal');
   if(!m){
     m = document.createElement('div');
     m.id = 'audit-modal';
@@ -1141,33 +1175,41 @@ function openAuditForm(){
     m.setAttribute('aria-labelledby','audit-modal-title');
     m.innerHTML = `
 <div class="audit-modal-box">
-  <span id="audit-modal-title" class="sr-only">Request a Website Audit</span>
-  <button class="audit-modal-close" id="audit-modal-close" aria-label="Close audit form">&times;</button>
+  <div class="audit-modal-header">
+    <span id="audit-modal-title">Request a Website Audit</span>
+    <button type="button" class="audit-modal-close" id="audit-modal-close" aria-label="Close audit form">&times;</button>
+  </div>
   <iframe
-    src="https://n8n.yavindigital.com/form/00eabfb0-9a06-4f2e-b309-40e0f7d70123"
     title="Request a Site Audit"
     frameborder="0"
     scrolling="auto"
-    allow="forms"
-    style="width:100%;height:100%;border:none;border-radius:inherit;"
+    style="width:100%;height:calc(100% - 48px);border:none;"
   ></iframe>
 </div>`;
     document.body.appendChild(m);
     m.addEventListener('click', function(e){ if(e.target===m) closeAuditForm(); });
     document.getElementById('audit-modal-close').addEventListener('click', closeAuditForm);
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAuditForm(); });
+    document.addEventListener('keydown', function(e){
+      var dialog = document.getElementById('audit-modal');
+      if(e.key==='Escape' && dialog && dialog.classList.contains('open')) closeAuditForm();
+    });
   }
+  var iframe = m.querySelector('iframe');
+  if(iframe && iframe.getAttribute('src') !== src) iframe.setAttribute('src', src);
   m.classList.add('open');
   document.body.style.overflow = 'hidden';
-  // return focus to close button
-  requestAnimationFrame(function(){ const c = document.getElementById('audit-modal-close'); if(c) c.focus(); });
+  setAuditPageInert(true);
+  requestAnimationFrame(function(){ var c = document.getElementById('audit-modal-close'); if(c) c.focus(); });
 }
 function closeAuditForm(){
-  const m = document.getElementById('audit-modal');
-  if(m){ m.classList.remove('open'); }
+  var m = document.getElementById('audit-modal');
+  if(!m || !m.classList.contains('open')) return;
+  m.classList.remove('open');
   document.body.style.overflow = '';
-  // return focus to triggering element
-  if(window._auditTrigger){ window._auditTrigger.focus(); window._auditTrigger = null; }
+  setAuditPageInert(false);
+  var trigger = window._auditTrigger;
+  window._auditTrigger = null;
+  if(trigger && typeof trigger.focus === 'function') trigger.focus();
 }
 
 /* ── FAQ ACCORDION ── */
